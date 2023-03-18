@@ -1,8 +1,9 @@
 import React from 'react'
+import './TimeLine.css';
 
 function TimeLine() {
   return (
-    <div>
+    <div className='timeline'>
     TimeLine
     </div>
   )

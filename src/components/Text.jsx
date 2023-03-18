@@ -1,8 +1,8 @@
 import React from 'react'
-
+import './Text.css';
 function Text() {
   return (
-    <div>
+    <div className='text'>
       Text
     </div>
   )

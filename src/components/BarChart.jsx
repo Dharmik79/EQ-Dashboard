@@ -1,9 +1,9 @@
 import React from 'react'
-
+import './BarChart.css';
 function BarChart() {
   return (
-    <div>
-    BarChart
+    <div className="barview">
+    Bar Chart 
     </div>
   )
 }
