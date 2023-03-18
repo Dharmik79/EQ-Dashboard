@@ -1,0 +1,9 @@
+.text{
+    background-color: aqua;
+    width: 30%;
+    /* height: 400px; */
+    /* align-items:center; */
+    text-align: center;
+    border: 10px solid rgb(85, 0, 255);
+    
+}
