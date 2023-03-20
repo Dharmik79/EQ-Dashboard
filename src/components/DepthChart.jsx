@@ -19,7 +19,7 @@ function DepthChart() {
       .domain([0, 75])
       .range([150, 0]);
   
-    const xAxis = axisBottom(xScale);
+    const xAxis = axisBottom(xScale).ticks(data.length).tickFormat(index=>index+1);
 
     svg.select(".x-axis").style("transform","translateY(150px)").call(xAxis)
 
