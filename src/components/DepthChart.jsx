@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./DepthChart.css";
 import { select } from "d3-selection";
 import { line } from "d3-shape";
-import { axisBottom } from "d3-axis";
+import { axisBottom ,axisLeft} from "d3-axis";
 import { scaleLinear } from "d3";
 function DepthChart() {
   const [data, setData] = useState([25, 30, 45, 60, 20, 65, 75]);
@@ -23,6 +23,9 @@ function DepthChart() {
 
     svg.select(".x-axis").style("transform","translateY(150px)").call(xAxis)
 
+    const yAxis = axisLeft(yScale);
+
+    svg.select(".y-axis").style("transform","translateX(0px)").call(yAxis)
     const myLine = line()
     .x((value, index) => xScale(index))
     .y(yScale);
@@ -41,6 +44,7 @@ function DepthChart() {
     <div className="depthview">
       <svg ref={svgRef} style={{ overflow: "visible"}}>
         <g className="x-axis"></g>
+        <g className="y-axis"></g>
       </svg>
     </div>
   );
