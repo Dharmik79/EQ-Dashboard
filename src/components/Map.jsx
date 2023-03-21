@@ -2,12 +2,13 @@ import React, { useRef, useEffect } from "react";
 import "./Map.css";
 import data from "../custom.json";
 import { select, geoPath, geoMercator } from "d3";
+import commonApi from "../api/common";
 
 function Map() {
   const svgRef = useRef();
   const wrapperRef = useRef();
 
-  useEffect(() => {
+  useEffect(() => { 
     const svg = select(svgRef.current);
 
     const { width, height } = wrapperRef.current.getBoundingClientRect();
@@ -24,6 +25,12 @@ function Map() {
       .join("path")
       .attr("class", "country")
       .attr("d", (feature) => pathGenerator(feature));
+
+
+      const getData=async()=>{
+        console.log(await commonApi({action:"getData"}))
+      }
+      getData()
   }, []);
 
   return (

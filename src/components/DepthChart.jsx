@@ -42,6 +42,7 @@ function DepthChart() {
   }, [data]);
   return (
     <div className="depthview">
+      <p>Earthquake Depth Anaysis</p>
       <svg ref={svgRef} style={{ overflow: "visible"}}>
         <g className="x-axis"></g>
         <g className="y-axis"></g>
