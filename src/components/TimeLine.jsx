@@ -40,10 +40,10 @@ const TimeLineChart = () => {
       .attr('transform', `translate(0,${innerHeight})`)
       .call(d3.axisBottom(x).tickValues(d3.range(30, 361, 30)).tickFormat((d) => months[Math.floor((d - 1) / 30)]));
 
-    g.append('g')
-      .attr('class', 'axis axis--y')
-      .call(d3.axisLeft(y).ticks(2, '%'))
-      .append('text')
+    // g.append('g')
+    //   .attr('class', 'axis axis--y')
+    //   .call(d3.axisLeft(y).ticks(2, '%'))
+    //   .append('text')
      
 
     g.selectAll('.bar')
@@ -53,7 +53,7 @@ const TimeLineChart = () => {
       .attr('class', 'bar')
       .attr("fill", "blue")
       .attr('x', (d) => x(d.day))
-      .attr('y', (d) => y(d.value))
+      // .attr('y', (d) => y(d.value))
       .attr('width', x.bandwidth())
       .attr('height', (d) => innerHeight - y(d.value));
   }, []);

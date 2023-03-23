@@ -1,6 +1,8 @@
 const apiList = {
     getData: {
-      url: (data) => ``,
+      url: (data) => {
+   return `starttime=${data.startDate}&endtime=${data.endDate}`
+      },
       method: "get"
     }
   };
