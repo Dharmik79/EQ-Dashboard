@@ -10,13 +10,16 @@ import commonApi from "./api/common";
 
 function App() {
   const [data, setData] = useState(data);
-
+  const [startDate, setStartDate] = useState("2021-01-01");
+  const [endDate, setEndDate] = useState("2021-01-02");
+  const getData = async () => {
+    let result = await commonApi({
+      action: "getData",
+      parameters: [{ startDate: startDate, endDate: endDate }],
+    });
+    setData(result);
+  };
   useEffect(() => {
-    const getData = async () => {
-let result=await commonApi({ action: "getData" });
-console.log("resu",result)
-      setData(result)
-    };
     getData();
   }, []);
   return (

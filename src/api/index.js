@@ -1,22 +1,20 @@
 import axios from "axios";
 import qs from "qs";
 
-const baseUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=2014-01-02";
+const baseUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&";
 const GET = "GET";
 
 
 const ACTION_HANDLERS = {
   [GET]: (url, data, headers) => {
     let queryUrl = url;
-
-    if (data !== undefined) {
-      const query = qs.stringify(data);
-
-      queryUrl = `${queryUrl}?${query}`;
-    }
-    console.log("baser",queryUrl)
-
-    return axios.get(baseUrl , {
+    // if (data !== undefined) {
+    //   const query = qs.stringify(data);
+ 
+    //   queryUrl = `${queryUrl}?${query}`;
+    //   console.log("queryURL",queryUrl)
+    // }
+    return axios.get(baseUrl+queryUrl , {
       headers
     });
   },
