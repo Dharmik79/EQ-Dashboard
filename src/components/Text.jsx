@@ -41,3 +41,50 @@ function Text() {
 }
 
 export default Text;
+
+// import React, { useState } from "react";
+
+// const Table = () => {
+//   const [data, setData] = useState([
+//     { id: 1, name: "John Doe", email: "johndoe@example.com" },
+//     { id: 2, name: "Jane Doe", email: "janedoe@example.com" },
+//     { id: 3, name: "Bob Smith", email: "bobsmith@example.com" },
+//     { id: 4, name: "John Doe", email: "johndoe@example.com" },
+//     { id: 5, name: "Jane Doe", email: "janedoe@example.com" },
+//     { id: 6, name: "Bob Smith", email: "bobsmith@example.com" },
+//     { id: 7, name: "John Doe", email: "johndoe@example.com" },
+//     { id: 8, name: "Jane Doe", email: "janedoe@example.com" },
+//     { id: 9, name: "Bob Smith", email: "bobsmith@example.com" },
+//     { id: 10, name: "Bob Smith", email: "bobsmith@example.com" },
+//     { id: 11, name: "John Doe", email: "johndoe@example.com" },
+//     { id: 12, name: "Jane Doe", email: "janedoe@example.com" },
+//     { id: 13, name: "Bob Smith", email: "bobsmith@example.com" },
+//     { id: 10, name: "Bob Smith", email: "bobsmith@example.com" },
+//     { id: 11, name: "John Doe", email: "johndoe@example.com" },
+//     { id: 12, name: "Jane Doe", email: "janedoe@example.com" },
+//     { id: 13, name: "Bob Smith", email: "bobsmith@example.com" },
+//   ]);
+
+//   return (
+//     <table>
+//       <thead>
+//         <tr>
+//           <th>ID</th>
+//           <th>Name</th>
+//           <th>Email</th>
+//         </tr>
+//       </thead>
+//       <tbody>
+//         {data.map((item) => (
+//           <tr key={item.id}>
+//             <td>{item.id}</td>
+//             <td>{item.name}</td>
+//             <td>{item.email}</td>
+//           </tr>
+//         ))}
+//       </tbody>
+//     </table>
+//   );
+// };
+
+// export default Table;
