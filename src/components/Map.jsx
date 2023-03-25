@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import "./Map.css";
 import mapData from "../custom.json";
-import { select, geoPath, geoMercator } from "d3";
+import { select, geoPath, geoMercator, transition, zoom } from "d3";
 import commonApi from "../api/common";
 import * as d3 from 'd3';
 
@@ -20,6 +20,12 @@ function Map({ data }) {
     // Takes the gro json data and converts to attribute of d3 for a path of the svg element
     const pathGenerator = geoPath().projection(projection);
 
+    function handleZoom() {
+
+      d3.select(svgRef.current).attr("transform", d3.event.transform);
+
+  }
+
     svg
       .selectAll(".country")
       .data(mapData.features)
@@ -30,6 +36,7 @@ function Map({ data }) {
       call(d3.zoom().on("zoom",function(){
         svg.attr("transform", d3.event.transform)
       })).transition()
+      transition()
       .attr("fill", "white")
       .style("stroke", "black")
 
@@ -50,6 +57,8 @@ function Map({ data }) {
           return projection(d.geometry.coordinates)[1];
         })
         .attr("fill", "blue");
+
+        svg.call(zoom)
   }, [data]);
 
   return (
@@ -58,7 +67,8 @@ function Map({ data }) {
         ref={wrapperRef}
         style={{ display: "flex", justifyContent: "center", height: "100%" }}
       >
-        <svg ref={svgRef} width="100%" height="100%"></svg>
+        {/* <svg ref={svgRef} width="100%" height="100%"></svg> */}
+        <svg ref={svgRef} width="800" height="600"></svg>
       </div>
     </div>
   );
