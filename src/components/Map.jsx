@@ -3,6 +3,7 @@ import "./Map.css";
 import mapData from "../custom.json";
 import { select, geoPath, geoMercator } from "d3";
 import commonApi from "../api/common";
+import * as d3 from 'd3';
 
 function Map({ data }) {
   const svgRef = useRef();
@@ -25,9 +26,12 @@ function Map({ data }) {
       .enter()
       .append("path")
       .attr("class", "country")
-      .attr("d", (feature) => pathGenerator(feature))
+      .attr("d", (feature) => pathGenerator(feature)).
+      call(d3.zoom().on("zoom",function(){
+        svg.attr("transform", d3.event.transform)
+      })).transition()
       .attr("fill", "white")
-      .style("stroke", "black");
+      .style("stroke", "black")
 
     data &&
       svg
@@ -45,7 +49,7 @@ function Map({ data }) {
         .attr("cy", function(d) {
           return projection(d.geometry.coordinates)[1];
         })
-        .attr("fill", "red");
+        .attr("fill", "blue");
   }, [data]);
 
   return (
