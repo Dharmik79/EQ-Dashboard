@@ -1,17 +1,17 @@
 import React, { useRef, useEffect } from "react";
 import "./Map.css";
 import mapData from "../custom.json";
-import { select, geoPath, geoMercator, transition, zoom } from "d3";
+import { select, geoPath, geoMercator } from "d3";
 import commonApi from "../api/common";
 import * as d3 from 'd3';
-
 function Map({ data }) {
   const svgRef = useRef();
   const wrapperRef = useRef();
+ 
 
   useEffect(() => {
     const svg = select(svgRef.current);
-
+    
     const { width, height } = wrapperRef.current.getBoundingClientRect();
 
     // Projects the geo-coordinates on a 2D plane
@@ -20,10 +20,13 @@ function Map({ data }) {
     // Takes the gro json data and converts to attribute of d3 for a path of the svg element
     const pathGenerator = geoPath().projection(projection);
 
-    function handleZoom() {
+    
+  const zoom = d3.zoom().on("zoom", handleZoom);
 
+  function handleZoom() {
+    
       d3.select(svgRef.current).transition().attr("transform", d3.event.transform);
-
+    
   }
 
     svg
