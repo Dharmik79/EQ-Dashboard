@@ -5,15 +5,15 @@ import crossfilter from "crossfilter2";
 const TimeLineChart = () => {
   const chartRef = useRef(null);
 
-  const data = d3.range(0, 360).map((d) => {
-    return {
-      day: d + 1,
-      // value: Math.floor(Math.random() * 10),
-      value:1,
-    };
-  });
+  const data = [];
+  let sDate = new Date(2022, 0, 1);
+  const eDate = new Date(2022, 11, 31);
 
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  while (sDate <= eDate) {
+    data.push({ day: new Date(sDate), value: 1 });
+    sDate.setDate(sDate.getDate() + 1);
+  }
+
 
   useEffect(() => {
     const svg = d3.select(chartRef.current);
