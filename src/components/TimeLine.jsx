@@ -16,54 +16,84 @@ const TimeLineChart = () => {
 
 
   useEffect(() => {
-    const svg = d3.select(chartRef.current);
+    if (data) {
+      const chartData = crossfilter(data);
 
-    const width = svg.attr('width');
-    const height = svg.attr('height');
+      const dimension = chartData.dimension((d) => d.day);
+      const group = dimension.group().reduceSum((d) => d.value);
 
-    const margin = { top: 10, right: 20, bottom: 20, left: 40 };
-    const innerWidth = width - margin.left - margin.right;
-    const innerHeight = height - margin.top - margin.bottom;
+      const margin = { top: 20, right: 20, bottom: 30, left: 50 };
+      const width = chartRef.current.clientWidth - margin.left - margin.right;
+      const height = chartRef.current.clientHeight - margin.top - margin.bottom;
 
-    const x = d3.scaleBand().domain(data.map((d) => d.day)).range([0, innerWidth]).padding(0.1);
+      const x = d3.scaleTime().range([0, width]);
+      // const y = d3.scaleLinear().range([height, 0]);
 
-    const y = d3
-      .scaleLinear()
-      .domain([0, d3.max(data, (d) => d.value)])
-      .range([innerHeight, 0]);
+      const xAxis = d3.axisBottom(x);
+      // const yAxis = d3.axisLeft(y);
 
-    const g = svg
-      .append('g')
-      .attr('transform', `translate(${margin.left},${margin.top})`);
+      const area = d3
+        .area()
+        .x((d) => x(d.key))
+        .y0(height)
+        // .y1((d) => y(d.value));
 
-    g.append('g')
-      .attr('class', 'axis axis--x')
-      .attr('transform', `translate(0,${innerHeight})`)
-      .call(d3.axisBottom(x).tickValues(d3.range(30, 361, 30)).tickFormat((d) => months[Math.floor((d - 1) / 30)]));
+      const brush = d3
+        .brushX()
+        .extent([
+          [0, 0],
+          [width, height],
+        ])
+        .on("end", brushed);
 
-    // g.append('g')
-    //   .attr('class', 'axis axis--y')
-    //   .call(d3.axisLeft(y).ticks(2, '%'))
-    //   .append('text')
-     
+      const svg = d3
+        .select(chartRef.current)
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`)
 
-    g.selectAll('.bar')
-      .data(data)
-      .enter()
-      .append('rect')
-      .attr('class', 'bar')
-      .attr("fill", "blue")
-      .attr('x', (d) => x(d.day))
-      // .attr('y', (d) => y(d.value))
-      .attr('width', x.bandwidth())
-      .attr('height', (d) => innerHeight - y(d.value));
-  }, []);
+        x.domain(d3.extent(data, (d) => d.date));
+        // y.domain([0, d3.max(group.all(), (d) => d.value)]);
+
+        svg.append("path").datum(group.all()).attr("class", "area").attr("d", area).attr("fill","gray")
+
+        svg
+        .append("g")
+        .attr("class", "x axis")
+        .attr("transform", `translate(0, ${height})`)
+        .call(xAxis);
+
+   // svg.append("g").attr("class", "y axis").call(yAxis);
+
+   svg.append("g").attr("class", "brush").call(brush)
+      .attr("fill","gray")
+
+      function brushed() {
+        const selection = d3.selection;
+        const filteredData = selection
+          ? data.filter((d) => x(d.day) >= selection[0] && x(d.day) <= selection[1])
+          : data;
+
+          dimension.filterRange([
+            selection ? x.invert(selection[0]) : null,
+            selection ? x.invert(selection[1]) : null,
+          ]);
+  
+          svg.select(".area").attr("d", area(group.all())).attr("fill","blue")
+          svg.select(".x.axis").call(xAxis);
+
+          console.log(filteredData);
+        }
+      }
+    }, [data]);
 
   return (
     <div className='timeline'>
-    <svg ref={chartRef} width={1500} height={70}>
+    {/* <svg ref={chartRef} width={1500} height={70}>
       <g />
-    </svg>
+    </svg> */}
     </div>
   );
 };
