@@ -14,6 +14,8 @@ const ACTION_HANDLERS = {
     //   queryUrl = `${queryUrl}?${query}`;
     //   console.log("queryURL",queryUrl)
     // }
+
+    console.log("query",baseUrl+queryUrl)
     return axios.get(baseUrl+queryUrl , {
       headers
     });
