@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
+import crossfilter from "crossfilter2";
 
 const TimeLineChart = () => {
   const chartRef = useRef(null);
