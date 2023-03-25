@@ -66,7 +66,6 @@ function Map({ data }) {
         ref={wrapperRef}
         style={{ display: "flex", justifyContent: "center", height: "100%" }}
       >
-        {/* <svg ref={svgRef} width="100%" height="100%"></svg> */}
         <svg ref={svgRef} width="1000" height="600"></svg>
       </div>
     </div>
