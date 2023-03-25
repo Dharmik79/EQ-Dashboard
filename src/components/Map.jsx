@@ -64,10 +64,12 @@ function Map({ data }) {
     <div className="map">
       <div
         ref={wrapperRef}
-        style={{ display: "flex", justifyContent: "center", height: "100%" }}
+        style={{ display: "flex", height: "100%" }}
       >
         {/* <svg ref={svgRef} width="100%" height="100%"></svg> */}
-        <svg ref={svgRef} width="1000" height="600"></svg>
+        <svg
+        
+        ref={svgRef} width="100%" height="800"></svg>
       </div>
     </div>
   );
