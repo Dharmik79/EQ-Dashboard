@@ -22,7 +22,7 @@ function Map({ data }) {
 
     function handleZoom() {
 
-      d3.select(svgRef.current).attr("transform", d3.event.transform);
+      d3.select(svgRef.current).transition().attr("transform", d3.event.transform);
 
   }
 
@@ -32,11 +32,7 @@ function Map({ data }) {
       .enter()
       .append("path")
       .attr("class", "country")
-      .attr("d", (feature) => pathGenerator(feature)).
-      call(d3.zoom().on("zoom",function(){
-        svg.attr("transform", d3.event.transform)
-      })).transition()
-      transition()
+      .attr("d", (feature) => pathGenerator(feature))
       .attr("fill", "white")
       .style("stroke", "black")
 
