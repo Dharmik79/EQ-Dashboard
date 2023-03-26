@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import useSupercluster from "use-supercluster";
 
 const eqIcon = new L.Icon({
-  iconUrl: "/public/earthquake.svg",
+  iconUrl: "/earthquake.svg",
   iconSize: [20, 20]
 });
 
@@ -63,7 +63,18 @@ function Map({ data }) {
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        
+        {clusters.map(cluster => {
+
+          const [longitude, latitude] = cluster.geometry.coordinates;
+
+          return (
+            <Marker
+              
+              position={[latitude, longitude]}
+              icon={eqIcon}
+            />
+          );
+        })}
       </MapContainer>
     </div>
   );
