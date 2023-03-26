@@ -1,64 +1,79 @@
-import React, { useRef, useEffect } from "react";
-import "./Map.css";
-import mapData from "../custom.json";
-import { select, geoPath, geoMercator, zoom as d3Zoom, event as d3Event } from "d3";
+import React, { useEffect, useState } from "react";
+import { Map as MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+// import Supercluster from "supercluster";
 
 function Map({ data }) {
-  const svgRef = useRef();
-  const wrapperRef = useRef();
+  const [clusters, setClusters] = useState([]);
 
-  useEffect(() => {
-    const svg = select(svgRef.current);
-    svg.selectAll("*").remove();
-    const { width, height } = wrapperRef.current.getBoundingClientRect();
+  // useEffect(() => {
+  //   if (!data) return;
 
-    const projection = geoMercator().fitSize([width, height], mapData);
-    const pathGenerator = geoPath().projection(projection);
+  //   const index = new Supercluster({
+  //     radius: 40,
+  //     maxZoom: 16,
+  //   });
 
-    const handleZoom = () => {
-      mapGroup.attr("transform", d3Event.transform);
-      circleGroup.attr("transform", d3Event.transform);
-    };
+  //   index.load(
+  //     data.features.map((feature) => ({
+  //       type: "Feature",
+  //       properties: feature.properties,
+  //       geometry: { type: "Point", coordinates: feature.geometry.coordinates },
+  //     }))
+  //   );
 
-    const zoom = d3Zoom().on("zoom", handleZoom);
+  //   const bounds = [
+  //     [-180, 85],
+  //     [180, -85],
+  //   ];
 
-    // Create separate group elements for map and circles
-    const mapGroup = svg.append("g");
-    const circleGroup = svg.append("g");
-
-    mapGroup
-      .selectAll(".country")
-      .data(mapData.features)
-      .enter()
-      .append("path")
-      .attr("class", "country")
-      .attr("d", (feature) => pathGenerator(feature))
-      .attr("fill", "white")
-      .style("stroke", "black");
-
-    data &&
-      circleGroup
-        .selectAll(".circle")
-        .data(data.features)
-        .enter()
-        .append("circle")
-        .attr("class", "circle")
-        .attr("r", (d) => Math.sqrt(d.properties.mag))
-        .attr("cx", (d) => projection(d.geometry.coordinates)[0])
-        .attr("cy", (d) => projection(d.geometry.coordinates)[1])
-        .attr("fill", "blue");
-
-    svg.call(zoom); // Apply the zoom behavior to the entire SVG
-  }, [data]);
+  //   const newClusters = index.getClusters(bounds, 1);
+  //   setClusters(newClusters);
+  // }, [data]);
 
   return (
-    <div className="map">
-      <div
-        ref={wrapperRef}
-        style={{ display: "flex", justifyContent: "center", height: "100%" }}
+    <div className="map" style={{ height: "100%", width: "100%" }}>
+      <MapContainer
+        center={[51.505, -0.09]}
+        zoom={1}
+        style={{ height: "100%", width: "100%" }}
       >
-        <svg ref={svgRef} width="100%" height="600"></svg>
-      </div>
+        <TileLayer
+          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+        {clusters.map((cluster) => {
+          const [longitude, latitude] = cluster.geometry.coordinates;
+          const {
+            cluster: isCluster,
+            point_count: pointCount,
+          } = cluster.properties;
+
+          if (isCluster) {
+            return (
+              <Marker
+                key={`cluster-${cluster.id}`}
+                position={[latitude, longitude]}
+              >
+                <Popup>
+                  <div>Cluster with {pointCount} points</div>
+                </Popup>
+              </Marker>
+            );
+          }
+
+          return (
+            <Marker
+              key={cluster.properties.id}
+              position={[latitude, longitude]}
+            >
+              <Popup>
+                <div>{cluster.properties.place}</div>
+              </Popup>
+            </Marker>
+          );
+        })}
+      </MapContainer>
     </div>
   );
 }
