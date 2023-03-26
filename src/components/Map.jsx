@@ -57,6 +57,7 @@ function Map({ data }) {
         zoom={13}
         style={{ height: "100%", width: "100%" }}
         ref={mapRef}
+        onMoveEnd={updateMap}
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
