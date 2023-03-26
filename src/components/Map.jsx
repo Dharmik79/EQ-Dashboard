@@ -3,7 +3,7 @@ import { Map as MapContainer, Marker, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import useSupercluster from "use-supercluster";
-
+import "./Map.css"
 const eqIcon = new L.Icon({
   iconUrl: "/earthquake.svg",
   iconSize: [20, 20]
@@ -66,10 +66,38 @@ function Map({ data }) {
         {clusters.map(cluster => {
 
           const [longitude, latitude] = cluster.geometry.coordinates;
-
+          // Checking if the cluster are present or not
+          const {
+            cluster: isCluster,
+            point_count: pointCount
+          } = cluster.properties;
+console.log("cluster",cluster)
+            // we have a cluster to render
+        if (isCluster) {
           return (
             <Marker
-              
+              key={`cluster-${cluster.id}`}
+              position={[latitude, longitude]}
+              icon={fetchIcon(
+                pointCount,
+                10 + (pointCount / clusters.length)
+              )}
+              onClick={() => {
+                const expansionZoom = Math.min(
+                  supercluster.getClusterExpansionZoom(cluster.id),
+                  17
+                );
+                const leaflet = mapRef.current.leafletElement;
+                leaflet.setView([latitude, longitude], expansionZoom, {
+                  animate: true
+                });
+              }}
+            />
+          );
+        }
+          return (
+            <Marker
+              key={cluster.id}
               position={[latitude, longitude]}
               icon={eqIcon}
             />
