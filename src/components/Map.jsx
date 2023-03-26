@@ -2,6 +2,7 @@ import React, { useRef, useState,useEffect } from "react";
 import { Map as MapContainer, Marker, TileLayer } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import useSupercluster from "use-supercluster";
 
 const eqIcon = new L.Icon({
   iconUrl: "/public/earthquake.svg",
@@ -41,6 +42,14 @@ function Map({ data }) {
   useEffect(() => {
     updateMap();
   }, []);
+
+  const { clusters, supercluster } = useSupercluster({
+   points: data? data.features :[],
+    bounds,
+    zoom,
+    options: { radius: 75, maxZoom: 17 }
+  });
+
   return (
     <div className="map" style={{ height: "100%", width: "100%" }}>
       <MapContainer
