@@ -21,7 +21,7 @@ function App() {
   };
   useEffect(() => {
     getData();
-  }, []);
+  }, [startDate,endDate]);
   return (
     <div className="dashboard">
       <div className="row1">
@@ -33,7 +33,12 @@ function App() {
         <DepthChart />
       </div>
       <div className="row3">
-        <TimeLine />
+        <TimeLine
+        startDate={startDate}
+        endDate={endDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+        />
       </div>
     </div>
   );
