@@ -31,7 +31,7 @@ function App() {
   return (
     <div className="dashboard">
       <div className="row1">
-        <Text count={count} />
+        <Text count={count} data={data ? data.features : []}/>
         <Map data={data} />
       </div>
       <div className="row2">

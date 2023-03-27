@@ -1,6 +1,16 @@
-import React from "react";
+import React,{useState} from "react";
 import "./Text.css";
-function Text({count}) {
+function Text({count,data}) {
+
+const [maxMag,setMaxMag]=useState(0)
+
+
+  data.forEach((quake) => {
+    const magnitude = quake.properties.mag;
+    if (magnitude > maxMag) {
+      setMaxMag(magnitude);
+    }
+  });
   return (
     <div className="text">
       <div className="text-design">
@@ -13,7 +23,7 @@ function Text({count}) {
           <hr/>
           <div className="statsdata">
             <div className="dataview">
-              <span>7.8</span>
+              <span>{maxMag}</span>
               <span>Max Magnitude</span>
             </div>
             <div className="dataview">
