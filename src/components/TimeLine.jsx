@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
-
+import "./TimeLine.css"
 const TimeLineChart = ({ startDate, endDate, setStartDate, setEndDate }) => {
   const chartRef = useRef(null);
 
