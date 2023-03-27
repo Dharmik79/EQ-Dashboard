@@ -15,10 +15,7 @@ function BarChart({ data, onRangeSelected }) {
     }
 
     const magData = {};
-    const resetBrush = () => {
-      svg.select(".brush").call(brush.move, null);
-    };
-    resetBrushRef.current = resetBrush;
+
     data.features.forEach((feature) => {
       const magType = Math.round(feature.properties.mag * 10) / 10;
       if (magData[magType]) {
@@ -75,7 +72,6 @@ function BarChart({ data, onRangeSelected }) {
       .on("brush end", () => {
         if (d3Event.selection) {
           const [minX, maxX] = d3Event.selection;
-          console.log("Brushed:", minX, maxX);
           const selectedMinMag = getNearestMagnitude(minX);
           const selectedMaxMag = getNearestMagnitude(maxX);
           onRangeSelected([selectedMinMag, selectedMaxMag]);
@@ -93,7 +89,16 @@ function BarChart({ data, onRangeSelected }) {
       if (mag >= 5 && mag < 6) return "red";
       return "gray";
     };
+    select(svgRef.current)
+      .selectAll(".brush")
+      .remove();
+    onRangeSelected(null);
     const svg = select(svgRef.current);
+    const resetBrush = () => {
+      svg.select(".brush").call(brush.move, null);
+      onRangeSelected(null);
+    };
+    resetBrushRef.current = resetBrush;
     svg
       .selectAll(".bar")
       .data(magArray)
@@ -116,7 +121,7 @@ function BarChart({ data, onRangeSelected }) {
 
   return (
     <div className="barview">
-        <button onClick={resetBrushRef.current}>Reset</button>
+      <button onClick={resetBrushRef.current}>Reset</button>
       <p>Earthquake Magnitude Histogram</p>
       <svg ref={svgRef} style={{ overflow: "visible" }}>
         <g className="x-axis"></g>
