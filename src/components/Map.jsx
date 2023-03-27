@@ -1,5 +1,5 @@
 import React, { useRef, useState,useEffect } from "react";
-import { Map as MapContainer, Marker, TileLayer } from "react-leaflet";
+import { Map as MapContainer, Marker, Popup, TileLayer, Tooltip } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import useSupercluster from "use-supercluster";
@@ -29,25 +29,38 @@ function Map({ data }) {
   const mapRef = useRef(); // adding reference to the leaflet map
 
   function updateMap() {
-    const b = mapRef.current.leafletElement.getBounds();
+    const leaflet = mapRef.current.leafletElement;
+    const b = leaflet.getBounds();
+    const currentZoom = leaflet.getZoom();
+    
+    // Set bounds state
     setBounds([
       b.getSouthWest().lng,
       b.getSouthWest().lat,
       b.getNorthEast().lng,
       b.getNorthEast().lat
     ]);
-    setZoom(mapRef.current.leafletElement.getZoom());
+  
+    // Check if current zoom is less than 3 and update if necessary
+    if (currentZoom < 1) {
+      leaflet.setZoom(1);
+      setZoom(3);
+    } else {
+      setZoom(currentZoom);
+    }
   }
+
 
   useEffect(() => {
     updateMap();
+    
   }, []);
 
   const { clusters, supercluster } = useSupercluster({
    points: data? data.features :[],
     bounds,
     zoom,
-    options: { radius: 75, maxZoom: 17 }
+    options: { radius: 75, maxZoom: 17 ,minZoom: 3}
   });
 
   return (
@@ -83,27 +96,36 @@ function Map({ data }) {
                 10 + (pointCount / clusters.length)
               )}
               onClick={() => {
-                const expansionZoom = Math.min(
-                  supercluster.getClusterExpansionZoom(cluster.id),
-                  17
-                );
+                const expansionZoom = Math.min(supercluster.getClusterExpansionZoom(cluster.id), 17);
                 const leaflet = mapRef.current.leafletElement;
-                leaflet.setView([latitude, longitude], expansionZoom, {
-                  animate: true
-                });
+                leaflet.setView([latitude, longitude], expansionZoom, { animate: true });
               }}
-            />
+            >
+              <Tooltip>
+                  {`Latitude: ${latitude}, Longitude: ${longitude}`}
+                </Tooltip>
+              {/* <Popup>{`Latitude: ${latitude}, Longitude: ${longitude}`}</Popup> */}
+            </Marker>
           );
         }
-          return (
-            <Marker
-              key={cluster.id}
-              position={[latitude, longitude]}
-              icon={eqIcon}
-            />
-          );
-        })}
-      </MapContainer>
+        return (
+          <Marker
+            key={cluster.id}
+            position={[latitude, longitude]}
+            icon={eqIcon}
+            onClick={() => {
+              const leaflet = mapRef.current.leafletElement;
+              leaflet.setView([latitude, longitude], 15, { animate: true });
+            }}
+          >
+            <Tooltip>
+                {`Latitude: ${latitude}, Longitude: ${longitude}`}
+              </Tooltip>
+            {/* <Popup>{`Latitude: ${latitude}, Longitude: ${longitude}`}</Popup> */}
+          </Marker>
+        );
+      })}
+    </MapContainer>
     </div>
   );
 }
