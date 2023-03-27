@@ -42,8 +42,8 @@ function Map({ data ,geo,setGeo}) {
     ]);
   
     // Check if current zoom is less than 3 and update if necessary
-    if (currentZoom < 2) {
-      leaflet.setZoom(2);
+    if (currentZoom < 1) {
+      leaflet.setZoom(1);
       setZoom(3);
     } else {
       setZoom(currentZoom);

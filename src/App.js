@@ -37,7 +37,7 @@ function App() {
         <Map data={data} geo={geo} setGeo={setGeo}/>
       </div>
       <div className="row2">
-        <BarChart />
+        <BarChart  data={data}/>
         <DepthChart />
       </div>
       <div className="row3">
