@@ -22,7 +22,7 @@ const fetchIcon = (count, size) => {
 };
 
 
-function Map({ data }) {
+function Map({ data ,geo,setGeo}) {
 
   const [bounds, setBounds] = useState(null); 
   const [zoom, setZoom] = useState(5); // set the default zoom level
@@ -48,6 +48,7 @@ function Map({ data }) {
     } else {
       setZoom(currentZoom);
     }
+  //  setGeo(null)
   }
 
 
@@ -66,8 +67,8 @@ function Map({ data }) {
   return (
     <div className="map" style={{ height: "100%", width: "100%" }}>
       <MapContainer
-        center={[46.58, 80.08]}
-        zoom={5}
+        center={geo?[geo.lat ,geo.long]:[46.58, 80.08]}
+        zoom={geo?10:5}
         style={{ height: "100%", width: "100%" }}
         ref={mapRef}
         onMoveEnd={updateMap}
