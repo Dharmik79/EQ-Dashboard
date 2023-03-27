@@ -43,9 +43,11 @@ function BarChart({ data }) {
       .domain([0, d3.max(magArray, (d) => d.count)])
       .range([150, 0]);
 
-    const xAxis = axisBottom(x).tickFormat((d) => {
-      return Number.isInteger(d) ? d : "";
-    });
+    const integerTickValues = magArray
+      .map((d) => d.mag)
+      .filter((mag) => Number.isInteger(mag));
+
+    const xAxis = axisBottom(x).tickValues(integerTickValues);
     const yAxis = axisLeft(y);
 
     select(svgRef.current)
