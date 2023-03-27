@@ -101,9 +101,7 @@ function Map({ data }) {
                 leaflet.setView([latitude, longitude], expansionZoom, { animate: true });
               }}
             >
-              <Tooltip>
-                  {`Latitude: ${latitude}, Longitude: ${longitude}`}
-                </Tooltip>
+             
               {/* <Popup>{`Latitude: ${latitude}, Longitude: ${longitude}`}</Popup> */}
             </Marker>
           );
