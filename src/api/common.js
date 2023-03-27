@@ -9,7 +9,7 @@ import apiList from "./list";
  * @return {*}
  */
 const commonApi = ({ parameters = [], action, module = "", data, config }) => {
-  console.log("parametes",parameters)
+
   const api = apiList[`${action}${module}`];
   if (api) {
     return fetchUrl({

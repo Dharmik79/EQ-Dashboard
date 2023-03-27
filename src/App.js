@@ -9,7 +9,7 @@ import DepthChart from "./components/DepthChart";
 import commonApi from "./api/common";
 
 function App() {
-  const [data, setData] = useState(data);
+  const [data, setData] = useState(null);
   const [startDate, setStartDate] = useState("2022-01-01");
   const [endDate, setEndDate] = useState("2022-01-31");
   const [count, setCount] = useState();
