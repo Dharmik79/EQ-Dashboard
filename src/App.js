@@ -48,6 +48,7 @@ function App() {
           endDate={endDate}
           setStartDate={setStartDate}
           setEndDate={setEndDate}
+          setSelectedRange={setSelectedRange}
         />
       </div>
     </div>
