@@ -10,8 +10,8 @@ import commonApi from "./api/common";
 
 function App() {
   const [data, setData] = useState(data);
-  const [startDate, setStartDate] = useState("2021-01-01");
-  const [endDate, setEndDate] = useState("2021-01-02");
+  const [startDate, setStartDate] = useState("2022-01-01");
+  const [endDate, setEndDate] = useState("2022-01-31");
   const getData = async () => {
     let result = await commonApi({
       action: "getData",
@@ -21,7 +21,7 @@ function App() {
   };
   useEffect(() => {
     getData();
-  }, []);
+  }, [startDate,endDate]);
   return (
     <div className="dashboard">
       <div className="row1">
@@ -33,7 +33,12 @@ function App() {
         <DepthChart />
       </div>
       <div className="row3">
-        <TimeLine />
+        <TimeLine
+        startDate={startDate}
+        endDate={endDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+        />
       </div>
     </div>
   );
