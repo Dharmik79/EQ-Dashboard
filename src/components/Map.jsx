@@ -22,7 +22,7 @@ const fetchIcon = (count, size) => {
 };
 
 
-function Map({ data,selectedRange }) {
+function Map({ data ,geo,setGeo,selectedRange}) {
 
   const [bounds, setBounds] = useState(null); 
   const [zoom, setZoom] = useState(5); // set the default zoom level
@@ -42,12 +42,13 @@ function Map({ data,selectedRange }) {
     ]);
   
     // Check if current zoom is less than 3 and update if necessary
-    if (currentZoom < 1) {
-      leaflet.setZoom(1);
-      setZoom(3);
+    if (currentZoom < 2) {
+      leaflet.setZoom(2);
+      setZoom(2);
     } else {
       setZoom(currentZoom);
     }
+  //  setGeo(null)
   }
 
 
@@ -73,8 +74,8 @@ function Map({ data,selectedRange }) {
   return (
     <div className="map" style={{ height: "100%", width: "100%" }}>
       <MapContainer
-        center={[46.58, 80.08]}
-        zoom={5}
+        center={geo?[geo.lat ,geo.long]:[46.58, 80.08]}
+        zoom={geo?10:5}
         style={{ height: "100%", width: "100%" }}
         ref={mapRef}
         onMoveEnd={updateMap}

@@ -113,6 +113,7 @@ function BarChart({ data, onRangeSelected }) {
 
   return (
     <div className="barview">
+        <button >Filter</button>
       <p>Earthquake Magnitude Histogram</p>
       <svg ref={svgRef} style={{ overflow: "visible" }}>
         <g className="x-axis"></g>

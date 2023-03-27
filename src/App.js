@@ -15,6 +15,8 @@ function App() {
   const [count, setCount] = useState();
   const [selectedRange, setSelectedRange] = useState(null);
 
+
+  const [geo,setGeo]=useState(null)
   const getData = async () => {
     let resultData = await commonApi({
       action: "getData",
@@ -33,8 +35,8 @@ function App() {
   return (
     <div className="dashboard">
       <div className="row1">
-        <Text count={count} data={data ? data.features : []}/>
-        <Map data={data} selectedRange={selectedRange}/>
+        <Text count={count} data={data ? data.features : []} geo={geo} setGeo={setGeo}/>
+        <Map data={data} selectedRange={selectedRange} geo={geo} setGeo={setGeo}/>
       </div>
       <div className="row2">
       <BarChart data={data} onRangeSelected={setSelectedRange}/>

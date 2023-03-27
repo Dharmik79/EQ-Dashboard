@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Text.css";
-function Text({ count, data }) {
+function Text({ count, data, geo, setGeo }) {
   const [maxMag, setMaxMag] = useState(0);
 
   const hotzones = {};
@@ -8,7 +8,7 @@ function Text({ count, data }) {
   data.forEach((quake) => {
     const latitude = quake.geometry.coordinates[1].toFixed(1);
     const longitude = quake.geometry.coordinates[0].toFixed(1);
-const place=quake.properties.place
+    const place = quake.properties.place;
     const key = `${latitude},${longitude}`;
     const magnitude = quake.properties.mag;
     if (magnitude > maxMag) {
@@ -21,15 +21,14 @@ const place=quake.properties.place
         latitude,
         longitude,
         count: 1,
-        place
+        place,
       };
     }
   });
 
   const dataArray = Object.values(hotzones);
-   const sortedData = dataArray.sort((a, b) => b.count - a.count);
-const arrayData=sortedData.slice(0,5)
-
+  const sortedData = dataArray.sort((a, b) => b.count - a.count);
+  const arrayData = sortedData.slice(0, 5);
 
   return (
     <div className="text">
@@ -57,11 +56,61 @@ const arrayData=sortedData.slice(0,5)
         <div className="hot-zones">
           <p>HOT ZONES:</p>
           <ul>
-           <li>{arrayData[0]&& arrayData[0].place}</li>
-           <li>{arrayData[1]&& arrayData[1].place}</li>
-           <li>{arrayData[2]&& arrayData[2].place}</li>
-           <li>{arrayData[3]&& arrayData[3].place}</li>
-           <li>{arrayData[4]&& arrayData[4].place}</li>
+            <li
+              onClick={() => {
+                arrayData[0] &&
+                  setGeo({
+                    lat: arrayData[0].latitude,
+                    long: arrayData[0].longitude,
+                  });
+              }}
+            >
+              {arrayData[0] && arrayData[0].place}
+            </li>
+            <li
+              onClick={() => {
+                arrayData[1] &&
+                  setGeo({
+                    lat: arrayData[1].latitude,
+                    long: arrayData[1].longitude,
+                  });
+              }}
+            >
+              {arrayData[1] && arrayData[1].place}
+            </li>
+            <li
+              onClick={() => {
+                arrayData[2] &&
+                  setGeo({
+                    lat: arrayData[2].latitude,
+                    long: arrayData[2].longitude,
+                  });
+              }}
+            >
+              {arrayData[2] && arrayData[2].place}
+            </li>
+            <li
+              onClick={() => {
+                arrayData[3] &&
+                  setGeo({
+                    lat: arrayData[3].latitude,
+                    long: arrayData[3].longitude,
+                  });
+              }}
+            >
+              {arrayData[3] && arrayData[3].place}
+            </li>
+            <li
+              onClick={() => {
+                arrayData[4] &&
+                  setGeo({
+                    lat: arrayData[4].latitude,
+                    long: arrayData[4].longitude,
+                  });
+              }}
+            >
+              {arrayData[4] && arrayData[4].place}
+            </li>
           </ul>
         </div>
       </div>
