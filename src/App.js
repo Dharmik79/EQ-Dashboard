@@ -13,6 +13,8 @@ function App() {
   const [startDate, setStartDate] = useState("2022-01-01");
   const [endDate, setEndDate] = useState("2022-01-31");
   const [count, setCount] = useState();
+
+  const [geo,setGeo]=useState(null)
   const getData = async () => {
     let resultData = await commonApi({
       action: "getData",
@@ -31,11 +33,11 @@ function App() {
   return (
     <div className="dashboard">
       <div className="row1">
-        <Text count={count} data={data ? data.features : []}/>
-        <Map data={data} />
+        <Text count={count} data={data ? data.features : []} geo={geo} setGeo={setGeo}/>
+        <Map data={data} geo={geo} setGeo={setGeo}/>
       </div>
       <div className="row2">
-      <BarChart data={data}/>
+        <BarChart  data={data}/>
         <DepthChart />
       </div>
       <div className="row3">
