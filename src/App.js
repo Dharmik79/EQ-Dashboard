@@ -12,20 +12,26 @@ function App() {
   const [data, setData] = useState(data);
   const [startDate, setStartDate] = useState("2022-01-01");
   const [endDate, setEndDate] = useState("2022-01-31");
+  const [count, setCount] = useState();
   const getData = async () => {
-    let result = await commonApi({
+    let resultData = await commonApi({
       action: "getData",
       parameters: [{ startDate: startDate, endDate: endDate }],
     });
-    setData(result);
+    setData(resultData);
+    let resultCount = await commonApi({
+      action: "getCount",
+      parameters: [{ startDate: startDate, endDate: endDate }],
+    });
+    setCount(resultCount);
   };
   useEffect(() => {
     getData();
-  }, [startDate,endDate]);
+  }, [startDate, endDate]);
   return (
     <div className="dashboard">
       <div className="row1">
-        <Text />
+        <Text count={count} data={data ? data.features : []}/>
         <Map data={data} />
       </div>
       <div className="row2">
@@ -34,8 +40,8 @@ function App() {
       </div>
       <div className="row3">
         <TimeLine
-        startDate={startDate}
-        endDate={endDate}
+          startDate={startDate}
+          endDate={endDate}
           setStartDate={setStartDate}
           setEndDate={setEndDate}
         />

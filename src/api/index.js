@@ -1,7 +1,7 @@
 import axios from "axios";
 import qs from "qs";
 
-const baseUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&";
+const baseUrl = "https://earthquake.usgs.gov/fdsnws/event/1/";
 const GET = "GET";
 
 
