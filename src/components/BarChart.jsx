@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./BarChart.css";
-import { select } from "d3-selection";
+import { select, event as d3Event } from "d3-selection";
 import { axisBottom, axisLeft } from "d3-axis";
 import { scaleLinear, scaleBand } from "d3";
+import { brushX } from "d3-brush";
 import * as d3 from "d3";
 
 function BarChart({ data }) {
@@ -31,7 +32,8 @@ function BarChart({ data }) {
       count: magData[mag].count,
     }));
     const magArray = sortedData.sort((a, b) => a.mag - b.mag);
-    console.log("magArray", magArray);
+    
+
     const uniqueMagnitudes = magArray.length;
     const barWidth = 300 / uniqueMagnitudes - 1;
     const x = scaleBand()
@@ -59,6 +61,20 @@ function BarChart({ data }) {
       .select(".y-axis")
       .style("transform", "translateX(0px)")
       .call(yAxis);
+
+      const brush = brushX()
+      .extent([
+        [0, 0],
+        [300, 150],
+      ])
+      .on("brush end", () => {
+        if (d3Event.selection) {
+          const [minX, maxX] = d3Event.selection;
+          console.log("Brushed:", minX, maxX);
+          
+        }
+      });
+
     const getColor = (mag) => {
       if (mag >= -2 && mag < -1) return "white";
       if (mag >= -1 && mag < 0) return "blue";
@@ -84,6 +100,8 @@ function BarChart({ data }) {
       .on("click", (d) => {
         console.log("d", d);
       });
+
+      select(svgRef.current).append("g").attr("class", "brush").call(brush)
   }, [data]);
 
   return (
