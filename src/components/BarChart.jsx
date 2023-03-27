@@ -4,55 +4,65 @@ import { select } from "d3-selection";
 import { line } from "d3-shape";
 import { axisBottom, axisLeft } from "d3-axis";
 import { scaleLinear, scaleBand } from "d3";
-function BarChart() {
-  const [data, setData] = useState([25, 30, 45, 60, 20, 65, 75]);
+import * as d3 from "d3";
 
+function BarChart({ data }) {
   const svgRef = useRef();
+  const magnitudeTypes = ["md", "ml", "ms_20", "mw", "me", "mi", "mb", "mb_lg"];
+  let magArray = [];
+  const magTypeData = {};
+  const width = 700;
+  const height = 150;
+
+  if (data) {
+    data.features.map((feature) => {
+      const magType = feature.properties.magType;
+
+      if (magTypeData[magType]) {
+        magTypeData[magType].count += 1;
+      } else {
+        magTypeData[magType] = {
+          count: 1,
+        };
+      }
+    });
+     magArray = Object.keys(magTypeData).map((magType) => ({
+      magType,
+      count: magTypeData[magType].count,
+    }));
+    console.log("magArray",magArray)
+  }
 
   useEffect(() => {
     const svg = select(svgRef.current);
-    const xScale = scaleBand()
-      .domain(data.map((value, index) => index))
-      .range([0, 300])
-      .padding(0.5);
 
-    const yScale = scaleLinear()
-      .domain([0, 150])
-      .range([150, 0]);
+    const x = d3.scaleBand().domain(magnitudeTypes).range([0, width]).padding(0.1);
 
-    const xAxis = axisBottom(xScale)
-      .ticks(data.length)
-      .tickFormat((index) => index + 1);
+    const y = d3.scaleLinear().domain([0, d3.max(magArray, (d) => d.count)]).range([height, 0]);
 
-    svg
-      .select(".x-axis")
-      .style("transform", "translateY(150px)")
-      .call(xAxis);
+    // Create the axes
+    const xAxis = d3.axisBottom(x);
+    const yAxis = d3.axisLeft(y);
 
-    const yAxis = axisLeft(yScale);
+    svg.select(".x-axis").style("transform", `translateY(${height}px)`).call(xAxis);
 
-    svg
-      .select(".y-axis")
-      .style("transform", "translateX(0px)")
-      .call(yAxis);
+    svg.select(".y-axis").style("transform", "translateX(0px)").call(yAxis);
 
     svg
       .selectAll(".bar")
-      .data(data)
+      .data(magArray)
       .join("rect")
       .attr("class", "bar")
-      .attr("fill", "red")
-      .attr("x", (value, index) => xScale(index))
-      .attr("y", yScale)
-      .attr("width", xScale.bandwidth())
-      .attr("height", (value) => 150 - yScale(value));
-
-      
+      .attr("x", (d) => x(d.magType))
+      .attr("y", (d) => y(d.count))
+      .attr("width", x.bandwidth())
+      .attr("height", (d) => height - y(d.count));
   }, [data]);
+
   return (
     <div className="barview">
       <p>Earthquake Magnitude Histogram</p>
-      <svg ref={svgRef} style={{ overflow: "visible" }}>
+      <svg ref={svgRef} style={{ overflow: "visible" }} width={width} height={height + 50}>
         <g className="x-axis"></g>
         <g className="y-axis"></g>
       </svg>
