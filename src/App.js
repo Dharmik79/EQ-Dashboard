@@ -9,10 +9,12 @@ import DepthChart from "./components/DepthChart";
 import commonApi from "./api/common";
 
 function App() {
-  const [data, setData] = useState(data);
+  const [data, setData] = useState(null);
   const [startDate, setStartDate] = useState("2022-01-01");
   const [endDate, setEndDate] = useState("2022-01-31");
   const [count, setCount] = useState();
+  const [selectedRange, setSelectedRange] = useState(null);
+
 
   const [geo,setGeo]=useState(null)
   const getData = async () => {
@@ -34,10 +36,10 @@ function App() {
     <div className="dashboard">
       <div className="row1">
         <Text count={count} data={data ? data.features : []} geo={geo} setGeo={setGeo}/>
-        <Map data={data} geo={geo} setGeo={setGeo}/>
+        <Map data={data} selectedRange={selectedRange} geo={geo} setGeo={setGeo}/>
       </div>
       <div className="row2">
-        <BarChart  data={data}/>
+      <BarChart data={data} onRangeSelected={setSelectedRange}/>
         <DepthChart />
       </div>
       <div className="row3">
@@ -46,6 +48,7 @@ function App() {
           endDate={endDate}
           setStartDate={setStartDate}
           setEndDate={setEndDate}
+          setSelectedRange={setSelectedRange}
         />
       </div>
     </div>

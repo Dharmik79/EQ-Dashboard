@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
-
-const TimeLineChart = ({startDate,endDate,setStartDate,setEndDate}) => {
+import "./TimeLine.css"
+const TimeLineChart = ({ startDate, endDate, setStartDate, setEndDate }) => {
   const chartRef = useRef(null);
 
   const data = [];
@@ -13,6 +13,7 @@ const TimeLineChart = ({startDate,endDate,setStartDate,setEndDate}) => {
     data.push({ day: new Date(sDate), value: 1 });
     sDate.setDate(sDate.getDate() + 1);
   }
+
   useEffect(() => {
     if (data) {
       const margin = { top: 20, right: 20, bottom: 30, left: 50 };
@@ -22,7 +23,7 @@ const TimeLineChart = ({startDate,endDate,setStartDate,setEndDate}) => {
         .scaleTime()
         .domain([new Date(2022, 0, 1), new Date(2022, 11, 31)])
         .range([0, width]);
-  
+
       const xAxis = d3
         .axisBottom(x)
         .tickFormat(d3.timeFormat("%b"))
@@ -31,68 +32,36 @@ const TimeLineChart = ({startDate,endDate,setStartDate,setEndDate}) => {
         )
         .tickSize(10)
         .tickPadding(5);
-  
-      const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
-  
+
       const brush = d3
         .brushX()
         .extent([
           [0, 0],
           [width, height],
         ])
-        .on("brush", () => {
-          const selection = d3.event.selection;
-  
-          if (!selection) return;
-  
-          let [startX, endX] = selection;
-  
-          if (endX - startX > x(new Date(oneMonthInMilliseconds)) - x(new Date(0))) {
-            endX = startX + (x(new Date(oneMonthInMilliseconds)) - x(new Date(0)));
-            if (endX > width) {
-              endX = width;
-              startX = endX - (x(new Date(oneMonthInMilliseconds)) - x(new Date(0)));
-            }
-            d3.select(".brush").call(brush.move, [startX, endX]);
-          }
-        })
-        .on("end", () => {
-          const selection = d3.event.selection;
-  
-          if (!selection) {
-            setStartDate(null);
-            setEndDate(null);
-            return;
-          }
-  
-          const [startX, endX] = selection;
-          const selectedStartDate = x.invert(startX);
-          const selectedEndDate = x.invert(endX);
-  
-          setStartDate(selectedStartDate.toISOString().split("T")[0]);
-          setEndDate(selectedEndDate.toISOString().split("T")[0]);
-          svg.selectAll(".selection").attr("fill", "blue");
-        });
-  
+        .on("end", brushed);
+      d3.select(chartRef.current)
+        .selectAll("*")
+        .remove();
       const svg = d3
         .select(chartRef.current)
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
-  
+
       svg
         .append("rect")
         .attr("width", width)
         .attr("height", height)
         .attr("fill", "gray");
-  
+
       svg
         .append("g")
         .attr("class", "x axis")
         .attr("transform", `translate(0, ${height})`)
         .call(xAxis);
-  
+
       svg
         .append("g")
         .attr("class", "brush")
@@ -103,13 +72,28 @@ const TimeLineChart = ({startDate,endDate,setStartDate,setEndDate}) => {
             ? [x(new Date(startDate)), x(new Date(endDate))]
             : null
         );
+
+      function brushed() {
+        const selection = d3.event.selection;
+        const selectedStartDate = selection ? x.invert(selection[0]) : null;
+        const selectedEndDate = selection ? x.invert(selection[1]) : null;
+
+        if (selectedStartDate && selectedEndDate) {
+          setStartDate(selectedStartDate.toISOString().split("T")[0]);
+          setEndDate(selectedEndDate.toISOString().split("T")[0]);
+        } else {
+          setStartDate(null);
+          setEndDate(null);
+        }
+
+        svg.selectAll(".selection").attr("fill", selection ? "blue" : "gray");
+      }
     }
   }, [data, startDate, endDate]);
-  
+
   return (
     <div className="timeline">
-      <svg ref={chartRef} width={1500} height={70}>
-      </svg>
+      <svg ref={chartRef} width={1500} height={70}></svg>
     </div>
   );
 };

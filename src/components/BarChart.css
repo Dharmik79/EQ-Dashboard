@@ -5,3 +5,8 @@
     /* height: 240px; */
     text-align: center;
 }
+
+.brush .selection {
+    fill: white;
+    stroke: none;
+  }
