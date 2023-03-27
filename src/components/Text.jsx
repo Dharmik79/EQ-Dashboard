@@ -1,6 +1,6 @@
 import React from "react";
 import "./Text.css";
-function Text() {
+function Text({count}) {
   return (
     <div className="text">
       <div className="text-design">
@@ -17,7 +17,7 @@ function Text() {
               <span>Max Magnitude</span>
             </div>
             <div className="dataview">
-              <span>1560310</span>
+              <span>{count}</span>
               <span>Total Count</span>
             </div>
           </div>
