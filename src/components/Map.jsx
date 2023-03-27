@@ -25,7 +25,7 @@ const fetchIcon = (count, size) => {
 function Map({ data }) {
 
   const [bounds, setBounds] = useState(null); 
-  const [zoom, setZoom] = useState(13); // set the default zoom level
+  const [zoom, setZoom] = useState(5); // set the default zoom level
   const mapRef = useRef(); // adding reference to the leaflet map
 
   function updateMap() {
@@ -66,8 +66,8 @@ function Map({ data }) {
   return (
     <div className="map" style={{ height: "100%", width: "100%" }}>
       <MapContainer
-        center={[52.6376, -1.135171]}
-        zoom={13}
+        center={[46.58, 80.08]}
+        zoom={5}
         style={{ height: "100%", width: "100%" }}
         ref={mapRef}
         onMoveEnd={updateMap}
@@ -84,7 +84,7 @@ function Map({ data }) {
             cluster: isCluster,
             point_count: pointCount
           } = cluster.properties;
-console.log("cluster",cluster)
+
             // we have a cluster to render
         if (isCluster) {
           return (

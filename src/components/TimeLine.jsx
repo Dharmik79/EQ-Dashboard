@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import crossfilter from "crossfilter2";
-const TimeLineChart = () => {
+const TimeLineChart = ({startDate,endDate,setStartDate,setEndDate}) => {
   const chartRef = useRef(null);
 
   const data = [];
@@ -13,14 +13,8 @@ const TimeLineChart = () => {
     data.push({ day: new Date(sDate), value: 1 });
     sDate.setDate(sDate.getDate() + 1);
   }
-
   useEffect(() => {
     if (data) {
-      const chartData = crossfilter(data);
-
-      const dimension = chartData.dimension((d) => d.day);
-      const group = dimension.group().reduceSum((d) => d.day);
-
       const margin = { top: 20, right: 20, bottom: 30, left: 50 };
       const width = chartRef.current.clientWidth - margin.left - margin.right;
       const height = chartRef.current.clientHeight - margin.top - margin.bottom;
@@ -28,8 +22,7 @@ const TimeLineChart = () => {
         .scaleTime()
         .domain([new Date(2022, 0, 1), new Date(2022, 11, 31)])
         .range([0, width]);
-      const y = d3.scaleLinear().range([height, 0]);
-
+  
       const xAxis = d3
         .axisBottom(x)
         .tickFormat(d3.timeFormat("%b"))
@@ -38,71 +31,81 @@ const TimeLineChart = () => {
         )
         .tickSize(10)
         .tickPadding(5);
-      const yAxis = d3.axisLeft(y);
-
-      const area = d3
-        .area()
-        .x((d) => x(d.key))
-        .y0(height)
-        .y1((d) => y(d.value));
-
+  
+      const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
+  
       const brush = d3
         .brushX()
         .extent([
           [0, 0],
           [width, height],
         ])
-        .on("end", brushed);
-
+        .on("brush", () => {
+          const selection = d3.event.selection;
+  
+          if (!selection) return;
+  
+          let [startX, endX] = selection;
+  
+          if (endX - startX > x(new Date(oneMonthInMilliseconds)) - x(new Date(0))) {
+            endX = startX + (x(new Date(oneMonthInMilliseconds)) - x(new Date(0)));
+            if (endX > width) {
+              endX = width;
+              startX = endX - (x(new Date(oneMonthInMilliseconds)) - x(new Date(0)));
+            }
+            d3.select(".brush").call(brush.move, [startX, endX]);
+          }
+        })
+        .on("end", () => {
+          const selection = d3.event.selection;
+  
+          if (!selection) {
+            setStartDate(null);
+            setEndDate(null);
+            return;
+          }
+  
+          const [startX, endX] = selection;
+          const selectedStartDate = x.invert(startX);
+          const selectedEndDate = x.invert(endX);
+  
+          setStartDate(selectedStartDate.toISOString().split("T")[0]);
+          setEndDate(selectedEndDate.toISOString().split("T")[0]);
+          svg.selectAll(".selection").attr("fill", "blue");
+        });
+  
       const svg = d3
         .select(chartRef.current)
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
         .append("g")
         .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-      y.domain([0, d3.max(group.all(), (d) => d.value)]);
-
+  
       svg
-        .append("path")
-        .datum(group.all())
-        .attr("class", "area")
-        .attr("d", area)
+        .append("rect")
+        .attr("width", width)
+        .attr("height", height)
         .attr("fill", "gray");
-
+  
       svg
         .append("g")
         .attr("class", "x axis")
         .attr("transform", `translate(0, ${height})`)
         .call(xAxis);
-
-      // svg.append("g").attr("class", "y axis").call(yAxis);
-
+  
       svg
         .append("g")
         .attr("class", "brush")
-        .call(brush);
-
-      function brushed() {
-        const selection = d3.event.selection;
-        const filteredData = selection
-          ? data.filter(
-              (d) => x(d.day) >= selection[0] && x(d.day) <= selection[1]
-            )
-          : data;
-
-        dimension.filterRange([
-          selection ? x.invert(selection[0]) : null,
-          selection ? x.invert(selection[1]) : null,
-        ]);
-
-        svg.selectAll(".selection").attr("fill","blue")
-        svg.select(".x.axis").call(xAxis);
-        console.log(filteredData);
-      }
+        .call(brush)
+        .call(
+          brush.move,
+          startDate && endDate
+            ? [x(new Date(startDate)), x(new Date(endDate))]
+            : null
+        );
     }
-  }, [data]);
-
+  }, [data, startDate, endDate]);
+  
   return (
     <div className="timeline">
       <svg ref={chartRef} width={1500} height={70}>
