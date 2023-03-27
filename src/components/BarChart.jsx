@@ -6,7 +6,7 @@ import { scaleLinear, scaleBand } from "d3";
 import { brushX } from "d3-brush";
 import * as d3 from "d3";
 
-function BarChart({ data }) {
+function BarChart({ data, onRangeSelected }) {
   const svgRef = useRef();
 
   useEffect(() => {
@@ -32,7 +32,6 @@ function BarChart({ data }) {
       count: magData[mag].count,
     }));
     const magArray = sortedData.sort((a, b) => a.mag - b.mag);
-    
 
     const uniqueMagnitudes = magArray.length;
     const barWidth = 300 / uniqueMagnitudes - 1;
@@ -61,8 +60,11 @@ function BarChart({ data }) {
       .select(".y-axis")
       .style("transform", "translateX(0px)")
       .call(yAxis);
-
-      const brush = brushX()
+    const getNearestMagnitude = (xCoord) => {
+      const index = Math.round((xCoord * uniqueMagnitudes) / 300);
+      return magArray[index] ? magArray[index].mag : null;
+    };
+    const brush = brushX()
       .extent([
         [0, 0],
         [300, 150],
@@ -71,7 +73,9 @@ function BarChart({ data }) {
         if (d3Event.selection) {
           const [minX, maxX] = d3Event.selection;
           console.log("Brushed:", minX, maxX);
-          
+          const selectedMinMag = getNearestMagnitude(minX);
+          const selectedMaxMag = getNearestMagnitude(maxX);
+          onRangeSelected([selectedMinMag, selectedMaxMag]);
         }
       });
 
@@ -101,7 +105,10 @@ function BarChart({ data }) {
         console.log("d", d);
       });
 
-      select(svgRef.current).append("g").attr("class", "brush").call(brush)
+    select(svgRef.current)
+      .append("g")
+      .attr("class", "brush")
+      .call(brush);
   }, [data]);
 
   return (

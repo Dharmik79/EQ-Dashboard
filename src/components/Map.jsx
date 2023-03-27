@@ -22,7 +22,7 @@ const fetchIcon = (count, size) => {
 };
 
 
-function Map({ data }) {
+function Map({ data,selectedRange }) {
 
   const [bounds, setBounds] = useState(null); 
   const [zoom, setZoom] = useState(5); // set the default zoom level
@@ -57,7 +57,14 @@ function Map({ data }) {
   }, []);
 
   const { clusters, supercluster } = useSupercluster({
-   points: data? data.features :[],
+   points:data
+   ? data.features.filter((feature) =>
+       selectedRange
+         ? feature.properties.mag >= selectedRange[0] &&
+           feature.properties.mag <= selectedRange[1]
+         : true
+     )
+   : [],
     bounds,
     zoom,
     options: { radius: 75, maxZoom: 17 ,minZoom: 3}
