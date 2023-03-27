@@ -8,14 +8,17 @@ import * as d3 from "d3";
 
 function BarChart({ data, onRangeSelected }) {
   const svgRef = useRef();
-
+  const resetBrushRef = useRef(null);
   useEffect(() => {
     if (!data) {
       return;
     }
 
     const magData = {};
-
+    const resetBrush = () => {
+      svg.select(".brush").call(brush.move, null);
+    };
+    resetBrushRef.current = resetBrush;
     data.features.forEach((feature) => {
       const magType = Math.round(feature.properties.mag * 10) / 10;
       if (magData[magType]) {
@@ -113,7 +116,7 @@ function BarChart({ data, onRangeSelected }) {
 
   return (
     <div className="barview">
-        <button >Filter</button>
+        <button onClick={resetBrushRef.current}>Reset</button>
       <p>Earthquake Magnitude Histogram</p>
       <svg ref={svgRef} style={{ overflow: "visible" }}>
         <g className="x-axis"></g>
