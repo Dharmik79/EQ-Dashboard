@@ -5,7 +5,7 @@ import "leaflet/dist/leaflet.css";
 import useSupercluster from "use-supercluster";
 import "./Map.css"
 const eqIcon = new L.Icon({
-  iconUrl: "./cs736-dashboard/earthquake.svg",
+  iconUrl: "./earthquake.svg",
   iconSize: [20, 20]
 });
 
