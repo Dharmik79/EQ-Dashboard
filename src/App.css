@@ -24,6 +24,11 @@
     /* border: 4px solid rgb(85, 0, 255); */
     /* height: 50dvh; */
   }
+  .row3{
+    margin-left:5px;
+    margin-right: 5px;
+    
+  }
   
   .text-container {
     width: 25%;
@@ -45,7 +50,7 @@
   
   .time-container {
     height: 100%;
-    height: 30dvh;
+    height: 10dvh;
     border: 4px solid rgb(85, 0, 255);
     box-sizing: border-box;
     /* background-color:rgb(80, 131, 159); */
