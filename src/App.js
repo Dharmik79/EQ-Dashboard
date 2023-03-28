@@ -15,8 +15,8 @@ function App() {
   const [count, setCount] = useState();
   const [selectedRange, setSelectedRange] = useState(null);
 
+  const [geo, setGeo] = useState(null);
 
-  const [geo,setGeo]=useState(null)
   const getData = async () => {
     let resultData = await commonApi({
       action: "getData",
@@ -29,27 +29,39 @@ function App() {
     });
     setCount(resultCount);
   };
+  
   useEffect(() => {
     getData();
   }, [startDate, endDate]);
+  
   return (
     <div className="dashboard">
       <div className="row1">
-        <Text count={count} data={data ? data.features : []} geo={geo} setGeo={setGeo}/>
-        <Map data={data} selectedRange={selectedRange} geo={geo} setGeo={setGeo}/>
-      </div>
-      <div className="row2">
-      <BarChart data={data} onRangeSelected={setSelectedRange}/>
-        <DepthChart />
+        <div className="text-container">
+          <Text count={count} data={data ? data.features : []} geo={geo} setGeo={setGeo}/>
+        </div>
+        <div className="map-container">
+          <Map data={data} selectedRange={selectedRange} geo={geo} setGeo={setGeo}/>
+          <div className="row2">
+            <div className="bar-chart">
+              <BarChart data={data} onRangeSelected={setSelectedRange}/>
+            </div>
+            <div className="depth-chart">
+              <DepthChart />
+            </div>
+          </div>
+        </div>
       </div>
       <div className="row3">
-        <TimeLine
-          startDate={startDate}
-          endDate={endDate}
-          setStartDate={setStartDate}
-          setEndDate={setEndDate}
-          setSelectedRange={setSelectedRange}
-        />
+        <div className="time-container">
+          <TimeLine
+            startDate={startDate}
+            endDate={endDate}
+            setStartDate={setStartDate}
+            setEndDate={setEndDate}
+            setSelectedRange={setSelectedRange}
+          />
+        </div>
       </div>
     </div>
   );

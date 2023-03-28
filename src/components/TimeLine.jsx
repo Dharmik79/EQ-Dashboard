@@ -39,7 +39,6 @@ const TimeLineChart = ({ startDate, endDate, setStartDate, setEndDate }) => {
           [0, 0],
           [width, height],
         ])
-        .on("brush", brushMoving)
         .on("end", brushed);
       d3.select(chartRef.current)
         .selectAll("*")
@@ -73,30 +72,12 @@ const TimeLineChart = ({ startDate, endDate, setStartDate, setEndDate }) => {
             ? [x(new Date(startDate)), x(new Date(endDate))]
             : null
         );
-        function brushMoving() {
-          const selection = d3.event.selection;
-          const selectedStartDate = selection ? x.invert(selection[0]) : null;
-          const selectedEndDate = selection ? x.invert(selection[1]) : null;
-        
-          if (selectedStartDate && selectedEndDate) {
-            const timeDiffInMilliseconds = selectedEndDate - selectedStartDate;
-            const maxMillisecondsPerMonth = 31 * 24 * 60 * 60 * 1000; // Maximum milliseconds in a month (31 days)
-        
-            if (timeDiffInMilliseconds > maxMillisecondsPerMonth) {
-              // Calculate the new end date, keeping the start date fixed and the range within one month
-              const newEndDate = new Date(selectedStartDate);
-              newEndDate.setTime(selectedStartDate.getTime() + maxMillisecondsPerMonth);
-        
-              // Update the brush selection to reflect the new end date
-              d3.select(this).call(brush.move, [selection[0], x(newEndDate)]);
-            }
-          }
-        }
+
       function brushed() {
         const selection = d3.event.selection;
         const selectedStartDate = selection ? x.invert(selection[0]) : null;
         const selectedEndDate = selection ? x.invert(selection[1]) : null;
-      
+
         if (selectedStartDate && selectedEndDate) {
           setStartDate(selectedStartDate.toISOString().split("T")[0]);
           setEndDate(selectedEndDate.toISOString().split("T")[0]);
@@ -104,7 +85,7 @@ const TimeLineChart = ({ startDate, endDate, setStartDate, setEndDate }) => {
           setStartDate(null);
           setEndDate(null);
         }
-      
+
         svg.selectAll(".selection").attr("fill", selection ? "blue" : "gray");
       }
     }
