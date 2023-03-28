@@ -18,7 +18,7 @@
   .row2 {
     display: flex;
     flex-direction: row;
-    border: 4px solid rgb(85, 0, 255);
+    /* border: 4px solid rgb(85, 0, 255); */
     /* height: 50dvh; */
   }
   
@@ -27,17 +27,20 @@
     height: 90dvh;
     border: 4px solid rgb(85, 0, 255);
     box-sizing: border-box;
+    margin-right: 5px;
   }
   
   .map-container {
     width: 75%;
-    height: 60dvh;
-    border: 4px solid rgb(85, 0, 255);
-    box-sizing: border-box;
+    height: 57dvh;
+    margin-right: 5px;
+    /* border: 4px solid rgb(85, 0, 255); */
+    /* box-sizing: border-box; */
   }
   
   .time-container {
     height: 100%;
+    height: 30dvh;
     border: 4px solid rgb(85, 0, 255);
     box-sizing: border-box;
     /* background-color:rgb(80, 131, 159); */
@@ -46,8 +49,8 @@
     width: 50%;
     /* border: 4px solid rgb(85, 0, 255); */
     box-sizing: border-box;
-    display: inline-block;
-  vertical-align: top;
+    /* display: inline-block;
+  vertical-align: top; */
     
   }
   .depth-chart{
