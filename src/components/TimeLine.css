@@ -1,4 +1,25 @@
-
+.timeline {
+  position: relative;
+  /* align-items: */
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+.filter {
+  position: absolute;
+  /* top: 25px; */
+  right: 10px;
+  display: flex;
+  align-items: center;
+}
+.filter label {
+  margin-right: 10px;
+}
+.year-filter{
+  font-size: 18px;
+  font-weight: 400;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
 
 .brush .selection {
     fill: blue;

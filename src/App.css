@@ -5,7 +5,7 @@
     display: flex;
     flex-direction: column;
     height: 100vh;
-    /* overflow-y: hidden; */
+    overflow-y: hidden;
   }
   
   .row1 {
@@ -18,28 +18,44 @@
   .row2 {
     display: flex;
     flex-direction: row;
+    border: 4px solid rgb(85, 0, 255);
     /* height: 50dvh; */
   }
   
   .text-container {
     width: 25%;
     height: 90dvh;
+    border: 4px solid rgb(85, 0, 255);
+    box-sizing: border-box;
   }
   
   .map-container {
     width: 75%;
     height: 60dvh;
+    border: 4px solid rgb(85, 0, 255);
+    box-sizing: border-box;
   }
   
   .time-container {
     height: 100%;
+    border: 4px solid rgb(85, 0, 255);
+    box-sizing: border-box;
     /* background-color:rgb(80, 131, 159); */
   }
   .bar-chart{
     width: 50%;
+    /* border: 4px solid rgb(85, 0, 255); */
+    box-sizing: border-box;
+    display: inline-block;
+  vertical-align: top;
+    
   }
   .depth-chart{
     width: 50%;
+    /* border: 4px solid rgb(85, 0, 255); */
+    box-sizing: border-box;
+    display: inline-block;
+  vertical-align: top;
   }
   
   @media screen and (max-width: 768px) {
@@ -51,6 +67,7 @@
       }
     .row3 {
       flex-direction: column;
+      
     }
     .text-container{
         width: 100%;
