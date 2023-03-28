@@ -81,7 +81,7 @@ function Map({ data, geo, setGeo, selectedRange }) {
         style={{ height: "100%", width: "100%" }}
         ref={mapRef}
         minZoom={2} // Set the minimum zoom level
-        maxZoom={10} // Set the maximum zoom level
+        maxZoom={17} // Set the maximum zoom level
         onMoveEnd={updateMap}
       >
         <TileLayer
