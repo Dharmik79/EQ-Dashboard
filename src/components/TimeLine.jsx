@@ -2,19 +2,39 @@ import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import "./TimeLine.css";
 
-const GetSelectedYear=({yearSelected})=>{
+const GetSelectedYear = ({ yearSelected, setYear }) => {
+  const onChange = (event) => {
+    setYear(event.target.value);
+  };
   return (
-    <select id="year" name="year">
+    <select id="year" name="year" onChange={onChange}>
       <option value="">Select Year</option>
-      {['2023', '2022', '2021', '2020', '2019', '2018', '2017', '2016', '2015'].map((year) => (
+      {[
+        "2023",
+        "2022",
+        "2021",
+        "2020",
+        "2019",
+        "2018",
+        "2017",
+        "2016",
+        "2015",
+      ].map((year) => (
         <option key={year} value={year} selected={year === yearSelected}>
           {year}
         </option>
       ))}
     </select>
   );
-}
-const TimeLineChart = ({ startDate, endDate, setStartDate, setEndDate ,year,setYear}) => {
+};
+const TimeLineChart = ({
+  startDate,
+  endDate,
+  setStartDate,
+  setEndDate,
+  year,
+  setYear,
+}) => {
   const chartRef = useRef(null);
 
   const data = [];
@@ -53,9 +73,7 @@ const TimeLineChart = ({ startDate, endDate, setStartDate, setEndDate ,year,setY
           [width, height],
         ])
         .on("end", brushed);
-      d3.select(chartRef.current)
-        .selectAll("*")
-        .remove();
+      d3.select(chartRef.current).selectAll("*").remove();
       const svg = d3
         .select(chartRef.current)
         .attr("width", width + margin.left + margin.right)
@@ -107,7 +125,7 @@ const TimeLineChart = ({ startDate, endDate, setStartDate, setEndDate ,year,setY
     <div className="timeline">
       <div className="filter">
         <label className="year-filter">Filter:</label>
-        <GetSelectedYear yearSelected={year}/>
+        <GetSelectedYear yearSelected={year} setYear={setYear} />
       </div>
       <svg ref={chartRef} width="90%" height={70}></svg>
     </div>
