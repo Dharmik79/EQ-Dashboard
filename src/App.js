@@ -16,7 +16,7 @@ function App() {
   const [selectedRange, setSelectedRange] = useState(null);
 
   const [geo, setGeo] = useState(null);
-
+  const [year,setYear]=useState("2022")
   const getData = async () => {
     let resultData = await commonApi({
       action: "getData",
@@ -72,6 +72,8 @@ function App() {
             setStartDate={setStartDate}
             setEndDate={setEndDate}
             setSelectedRange={setSelectedRange}
+            year={year}
+            setYear={setYear}
           />
         </div>
       </div>
