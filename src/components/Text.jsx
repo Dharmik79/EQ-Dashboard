@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import "./Text.css";
-function Text({ count, data, geo, setGeo }) {
+function Text({ count, data, geo, setGeo,startDate,endDate }) {
   const [maxMag, setMaxMag] = useState(0);
 
   const hotzones = {};
 
   const recentEarthQuakes=data.sort((a,b)=>b.properties.time-a.properties.time)
-console.log("recentEarthQuakes",recentEarthQuakes[0])
+
   data.forEach((quake) => {
     const latitude = quake.geometry.coordinates[1].toFixed(1);
     const longitude = quake.geometry.coordinates[0].toFixed(1);
@@ -38,7 +38,7 @@ console.log("recentEarthQuakes",recentEarthQuakes[0])
         <p className="h2">
           WORLD'S <br></br>EARTHQUAKES{" "}
         </p>
-        <span className="hot-zones">Data as 4 PM(PST), March 20, 2023</span>
+        <span className="hot-zones">{startDate} to {endDate}</span>
 
         <div className="earthquakestats">
           <hr />

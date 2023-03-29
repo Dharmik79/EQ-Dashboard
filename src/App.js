@@ -29,22 +29,34 @@ function App() {
     });
     setCount(resultCount);
   };
-  
+
   useEffect(() => {
     getData();
   }, [startDate, endDate]);
-  
+
   return (
     <div className="dashboard">
       <div className="row1">
         <div className="text-container">
-          <Text count={count} data={data ? data.features : []} geo={geo} setGeo={setGeo}/>
+          <Text
+            count={count}
+            data={data ? data.features : []}
+            geo={geo}
+            setGeo={setGeo}
+            startDate={startDate}
+            endDate={endDate}
+          />
         </div>
         <div className="map-container">
-          <Map data={data} selectedRange={selectedRange} geo={geo} setGeo={setGeo}/>
+          <Map
+            data={data}
+            selectedRange={selectedRange}
+            geo={geo}
+            setGeo={setGeo}
+          />
           <div className="row2">
             <div className="bar-chart">
-              <BarChart data={data} onRangeSelected={setSelectedRange}/>
+              <BarChart data={data} onRangeSelected={setSelectedRange} />
             </div>
             <div className="depth-chart">
               <DepthChart />
