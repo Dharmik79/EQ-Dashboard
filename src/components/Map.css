@@ -8,8 +8,11 @@ padding-bottom: 2%; */
   align-items: center;
   justify-content: center;
   flex-direction: column; 
-  border: 4px solid red;
-  background-color:burlywood;
+  border: 4px solid gray;
+  box-sizing: border-box;
+  margin-bottom: 1dvh;
+  margin-top: 1dvh;
+  /* background-color:burlywood; */
   /* color:cornflowerblue; */
 
 }

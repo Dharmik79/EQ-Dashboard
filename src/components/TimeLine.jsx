@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
-import "./TimeLine.css"
+import "./TimeLine.css";
 const TimeLineChart = ({ startDate, endDate, setStartDate, setEndDate }) => {
   const chartRef = useRef(null);
 
@@ -39,7 +39,6 @@ const TimeLineChart = ({ startDate, endDate, setStartDate, setEndDate }) => {
           [0, 0],
           [width, height],
         ])
-        .on("brush", brushMoving)
         .on("end", brushed);
       d3.select(chartRef.current)
         .selectAll("*")
@@ -73,30 +72,12 @@ const TimeLineChart = ({ startDate, endDate, setStartDate, setEndDate }) => {
             ? [x(new Date(startDate)), x(new Date(endDate))]
             : null
         );
-        function brushMoving() {
-          const selection = d3.event.selection;
-          const selectedStartDate = selection ? x.invert(selection[0]) : null;
-          const selectedEndDate = selection ? x.invert(selection[1]) : null;
-        
-          if (selectedStartDate && selectedEndDate) {
-            const timeDiffInMilliseconds = selectedEndDate - selectedStartDate;
-            const maxMillisecondsPerMonth = 31 * 24 * 60 * 60 * 1000; // Maximum milliseconds in a month (31 days)
-        
-            if (timeDiffInMilliseconds > maxMillisecondsPerMonth) {
-              // Calculate the new end date, keeping the start date fixed and the range within one month
-              const newEndDate = new Date(selectedStartDate);
-              newEndDate.setTime(selectedStartDate.getTime() + maxMillisecondsPerMonth);
-        
-              // Update the brush selection to reflect the new end date
-              d3.select(this).call(brush.move, [selection[0], x(newEndDate)]);
-            }
-          }
-        }
+
       function brushed() {
         const selection = d3.event.selection;
         const selectedStartDate = selection ? x.invert(selection[0]) : null;
         const selectedEndDate = selection ? x.invert(selection[1]) : null;
-      
+
         if (selectedStartDate && selectedEndDate) {
           setStartDate(selectedStartDate.toISOString().split("T")[0]);
           setEndDate(selectedEndDate.toISOString().split("T")[0]);
@@ -104,7 +85,7 @@ const TimeLineChart = ({ startDate, endDate, setStartDate, setEndDate }) => {
           setStartDate(null);
           setEndDate(null);
         }
-      
+
         svg.selectAll(".selection").attr("fill", selection ? "blue" : "gray");
       }
     }
@@ -112,7 +93,22 @@ const TimeLineChart = ({ startDate, endDate, setStartDate, setEndDate }) => {
 
   return (
     <div className="timeline">
-      <svg ref={chartRef} width={1500} height={70}></svg>
+      <div className="filter">
+        <label className="year-filter">Filter:</label>
+        <select id="year" name="year">
+          <option value="">Select Year</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+          <option value="2021">2021</option>
+          <option value="2020">2020</option>
+          <option value="2019">2019</option>
+          <option value="2018">2018</option>
+          <option value="2017">2017</option>
+          <option value="2016">2016</option>
+          <option value="2015">2015</option>
+        </select>
+      </div>
+      <svg ref={chartRef} width="90%" height={70}></svg>
     </div>
   );
 };

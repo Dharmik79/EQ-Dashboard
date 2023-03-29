@@ -1,12 +1,27 @@
 .barview{
-    background-color: green;
+    /* background-color: green; */
     /* color: aqua; */
     width: 100%;
+    height: 30dvh;
     /* height: 240px; */
     text-align: center;
+    border: 4px solid gray;
+    box-sizing: border-box; 
+    /* box sizing should be removed */
 }
 
 .brush .selection {
     fill: white;
     stroke: none;
+  }
+.bar-chart-name{
+
+ font-size: 18px;
+  font-weight: 400;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif; 
+  margin-left: 5px;  
+}
+  .button-style{
+    height: 30px;
+    margin-right: 5px;
   }

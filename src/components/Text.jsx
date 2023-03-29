@@ -113,6 +113,66 @@ function Text({ count, data, geo, setGeo }) {
             </li>
           </ul>
         </div>
+        <div className="recent-earthquakes">
+          <p>RECENT EARTHQUAKES:</p>
+          <ul>
+            <li
+              onClick={() => {
+                arrayData[0] &&
+                  setGeo({
+                    lat: arrayData[0].latitude,
+                    long: arrayData[0].longitude,
+                  });
+              }}
+            >
+              {arrayData[0] && arrayData[0].place}
+            </li>
+            <li
+              onClick={() => {
+                arrayData[1] &&
+                  setGeo({
+                    lat: arrayData[1].latitude,
+                    long: arrayData[1].longitude,
+                  });
+              }}
+            >
+              {arrayData[1] && arrayData[1].place}
+            </li>
+            <li
+              onClick={() => {
+                arrayData[2] &&
+                  setGeo({
+                    lat: arrayData[2].latitude,
+                    long: arrayData[2].longitude,
+                  });
+              }}
+            >
+              {arrayData[2] && arrayData[2].place}
+            </li>
+            <li
+              onClick={() => {
+                arrayData[3] &&
+                  setGeo({
+                    lat: arrayData[3].latitude,
+                    long: arrayData[3].longitude,
+                  });
+              }}
+            >
+              {arrayData[3] && arrayData[3].place}
+            </li>
+            <li
+              onClick={() => {
+                arrayData[4] &&
+                  setGeo({
+                    lat: arrayData[4].latitude,
+                    long: arrayData[4].longitude,
+                  });
+              }}
+            >
+              {arrayData[4] && arrayData[4].place}
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   );

@@ -42,7 +42,10 @@ function DepthChart() {
   }, [data]);
   return (
     <div className="depthview">
-      <p>Earthquake Depth Anaysis</p>
+       <div style={{ display: "flex", justifyContent: "space-between" ,alignItems:"center"}}>
+    <p className="bar-chart-name">Depth Chart Analysis</p>
+    <button className="button-style"> Reset Brush</button>
+  </div>
       <svg ref={svgRef} style={{ overflow: "visible"}}>
         <g className="x-axis"></g>
         <g className="y-axis"></g>

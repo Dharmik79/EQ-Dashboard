@@ -121,13 +121,15 @@ function BarChart({ data, onRangeSelected }) {
 
   return (
     <div className="barview">
-      <button onClick={resetBrushRef.current}>Reset</button>
-      <p>Earthquake Magnitude Histogram</p>
-      <svg ref={svgRef} style={{ overflow: "visible" }}>
-        <g className="x-axis"></g>
-        <g className="y-axis"></g>
-      </svg>
-    </div>
+  <div style={{ display: "flex", justifyContent: "space-between" ,alignItems:"center"}}>
+    <p className="bar-chart-name">Earthquake Magnitude Histogram</p>
+    <button className="button-style" onClick={resetBrushRef.current}> Reset Brush</button>
+  </div>
+  <svg ref={svgRef} style={{ overflow: "visible" }}>
+    <g className="x-axis"></g>
+    <g className="y-axis"></g>
+  </svg>
+</div>
   );
 }
 
