@@ -2,9 +2,28 @@ import React, { useRef, useEffect } from "react";
 import * as d3 from "d3";
 import "./TimeLine.css";
 
-const GetSelectedYear = ({ yearSelected, setYear }) => {
+function changeYear(date, newYear) {
+  const dateParts = date.split("-");
+  const day = dateParts[2];
+  const month = dateParts[1];
+  return `${newYear}-${month}-${day}`;
+}
+const GetSelectedYear = ({
+  yearSelected,
+  setYear,
+  setStartDate,
+  setEndDate,
+  startDate,
+  endDate,
+}) => {
   const onChange = (event) => {
-    setYear(event.target.value);
+    let year = event.target.value;
+    let newStartDate = changeYear(startDate, year);
+    let newEndDate = changeYear(endDate, year);
+    setStartDate(newStartDate);
+    setEndDate(newEndDate);
+
+    setYear(year);
   };
   return (
     <select id="year" name="year" onChange={onChange}>
@@ -39,8 +58,8 @@ const TimeLineChart = ({
 
   const data = [];
 
-  let sDate = new Date(2022, 0, 1);
-  const eDate = new Date(2022, 11, 31);
+  let sDate = new Date(year, 0, 1);
+  const eDate = new Date(year, 11, 31);
 
   while (sDate <= eDate) {
     data.push({ day: new Date(sDate), value: 1 });
@@ -54,14 +73,14 @@ const TimeLineChart = ({
       const height = chartRef.current.clientHeight - margin.top - margin.bottom;
       const x = d3
         .scaleTime()
-        .domain([new Date(2022, 0, 1), new Date(2022, 11, 31)])
+        .domain([new Date(year, 0, 1), new Date(year, 11, 31)])
         .range([0, width]);
 
       const xAxis = d3
         .axisBottom(x)
         .tickFormat(d3.timeFormat("%b"))
         .tickValues(
-          d3.timeMonth.range(new Date(2022, 0, 1), new Date(2022, 11, 31), 1)
+          d3.timeMonth.range(new Date(year, 0, 1), new Date(year, 11, 31), 1)
         )
         .tickSize(10)
         .tickPadding(5);
@@ -120,12 +139,19 @@ const TimeLineChart = ({
         svg.selectAll(".selection").attr("fill", selection ? "blue" : "gray");
       }
     }
-  }, [data, startDate, endDate]);
+  }, [data, startDate, endDate, year]);
   return (
     <div className="timeline">
       <div className="filter">
         <label className="year-filter">Filter:</label>
-        <GetSelectedYear yearSelected={year} setYear={setYear} />
+        <GetSelectedYear
+          yearSelected={year}
+          setYear={setYear}
+          startDate={startDate}
+          endDate={endDate}
+          setStartDate={setStartDate}
+          setEndDate={setEndDate}
+        />
       </div>
       <svg ref={chartRef} width="90%" height={70}></svg>
     </div>
