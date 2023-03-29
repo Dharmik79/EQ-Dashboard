@@ -5,6 +5,8 @@ function Text({ count, data, geo, setGeo }) {
 
   const hotzones = {};
 
+  const recentEarthQuakes=data.sort((a,b)=>b.properties.time-a.properties.time)
+console.log("recentEarthQuakes",recentEarthQuakes[0])
   data.forEach((quake) => {
     const latitude = quake.geometry.coordinates[1].toFixed(1);
     const longitude = quake.geometry.coordinates[0].toFixed(1);
@@ -118,54 +120,54 @@ function Text({ count, data, geo, setGeo }) {
           <ul>
             <li
               onClick={() => {
-                arrayData[0] &&
+                recentEarthQuakes[0] &&
                   setGeo({
-                    lat: arrayData[0].latitude,
-                    long: arrayData[0].longitude,
+                    lat: recentEarthQuakes[0].geometry.coordinates[1].toFixed(1),
+                    long: recentEarthQuakes[0].geometry.coordinates[0].toFixed(1),
                   });
               }}
             >
-              {arrayData[0] && arrayData[0].place}
+              {recentEarthQuakes[0] && recentEarthQuakes[0].properties.place}
             </li>
             <li
               onClick={() => {
-                arrayData[1] &&
+                recentEarthQuakes[1] &&
                   setGeo({
-                    lat: arrayData[1].latitude,
-                    long: arrayData[1].longitude,
+                    lat: recentEarthQuakes[1].geometry.coordinates[1].toFixed(1),
+                    long: recentEarthQuakes[1].geometry.coordinates[0].toFixed(1),
                   });
               }}
             >
-              {arrayData[1] && arrayData[1].place}
+              {recentEarthQuakes[1] && recentEarthQuakes[1].properties.place}
             </li>
             <li
               onClick={() => {
-                arrayData[2] &&
+                recentEarthQuakes[2] &&
                   setGeo({
-                    lat: arrayData[2].latitude,
-                    long: arrayData[2].longitude,
+                    lat: recentEarthQuakes[2].geometry.coordinates[1].toFixed(1),
+                    long: recentEarthQuakes[2].geometry.coordinates[0].toFixed(1),
                   });
               }}
             >
-              {arrayData[2] && arrayData[2].place}
+              {recentEarthQuakes[2] && recentEarthQuakes[2].properties.place}
             </li>
             <li
               onClick={() => {
-                arrayData[3] &&
+                recentEarthQuakes[3] &&
                   setGeo({
-                    lat: arrayData[3].latitude,
-                    long: arrayData[3].longitude,
+                    lat: recentEarthQuakes[3].geometry.coordinates[1].toFixed(1),
+                    long: recentEarthQuakes[3].geometry.coordinates[0].toFixed(1),
                   });
               }}
             >
-              {arrayData[3] && arrayData[3].place}
+              {recentEarthQuakes[3] && recentEarthQuakes[3].properties.place}
             </li>
             <li
               onClick={() => {
-                arrayData[4] &&
+                recentEarthQuakes[4] &&
                   setGeo({
-                    lat: arrayData[4].latitude,
-                    long: arrayData[4].longitude,
+                    lat: recentEarthQuakes[4].geometry.coordinates[1].toFixed(1),
+                    long: recentEarthQuakes[4].geometry.coordinates[0].toFixed(1),
                   });
               }}
             >
