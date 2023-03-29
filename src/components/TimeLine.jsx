@@ -57,7 +57,7 @@ const TimeLineChart = ({
   const chartRef = useRef(null);
 
   const data = [];
-
+  const formatDate = d3.timeFormat("%m-%d");
   let sDate = new Date(year, 0, 1);
   const eDate = new Date(year, 11, 31);
 
@@ -91,6 +91,7 @@ const TimeLineChart = ({
           [0, 0],
           [width, height],
         ])
+        .on("brush", onMove)
         .on("end", brushed);
       d3.select(chartRef.current).selectAll("*").remove();
       const svg = d3
@@ -122,7 +123,30 @@ const TimeLineChart = ({
             ? [x(new Date(startDate)), x(new Date(endDate))]
             : null
         );
+      svg
+        .append("text")
+        .attr("class", "brush-left")
+        .attr("y", -5)
+        .attr("text-anchor", "start");
 
+      svg
+        .append("text")
+        .attr("class", "brush-right")
+        .attr("y", -5)
+        .attr("text-anchor", "end");
+
+      function onMove() {
+        const selection = d3.event.selection;
+        const selectedStartDate = selection ? x.invert(selection[0]) : null;
+        const selectedEndDate = selection ? x.invert(selection[1]) : null;
+        
+        if (selectedStartDate && selectedEndDate) {
+         d3.select(".brush-left").attr("x", selection[0])
+         .text(formatDate(selectedStartDate));
+         d3.select(".brush-right").attr("x", selection[1])
+         .text(formatDate(selectedEndDate));
+        } 
+      }
       function brushed() {
         const selection = d3.event.selection;
         const selectedStartDate = selection ? x.invert(selection[0]) : null;
