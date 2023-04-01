@@ -116,9 +116,9 @@ function DepthChart({ data, onRangeSelected }) {
         }}
       >
         <p className="bar-chart-name">Depth Chart Analysis</p>
-        <button className="button-style" onClick={resetBrushRef.current}>
-          {" "}
-          Reset{" "}
+        <button className="button-style" onClick={resetBrushRef.current} style={{cursor:"pointer"}}>
+          
+          Reset
         </button>
       </div>
       <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "10dvh" }}>
