@@ -140,6 +140,7 @@ function Map({ data, geo, setGeo, selectedRange, selectedDepthRange }) {
                   <div>Longitude: {longitude}</div>
                   <div>Place: {cluster.properties.place}</div>
                   <div>Magnitude: {cluster.properties.mag}</div>
+                  <div>Depth: {cluster.geometry.coordinates[2]} km</div>
                 </div>
               </Tooltip>
               {/* <Popup>{`Latitude: ${latitude}, Longitude: ${longitude}`}</Popup> */}
