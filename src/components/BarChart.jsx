@@ -140,7 +140,7 @@ function BarChart({ data, onRangeSelected }) {
     <div className="barview">
   <div style={{ display: "flex", justifyContent: "space-between" ,alignItems:"center"}}>
     <p className="bar-chart-name">Earthquake Magnitude Histogram</p>
-    <button className="button-style" onClick={resetBrushRef.current}> Reset Brush</button>
+    <button className="button-style" onClick={resetBrushRef.current}>Reset Brush</button>
   </div>
   <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "12dvh" }}>
     <g className="x-axis"></g>

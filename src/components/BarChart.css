@@ -24,5 +24,10 @@
   .button-style{
     height: 30px;
     margin-right: 5px;
+    background-color: #1877f2;
+    /* text-decoration: antiquewhite; */
+   color:aliceblue;
+   border: 0px;
+   border-radius: 5px;
     
   }
