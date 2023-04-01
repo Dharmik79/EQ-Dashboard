@@ -56,6 +56,19 @@ function DepthChart({ data }) {
     
     svg.select(".y-axis").style("transform", "translateX(0px)").call(yAxis);
 
+    select(svgRef.current).append("text")
+    .attr("transform", `translate(${420 / 2},${210})`)
+    .style("text-anchor", "middle")
+    .text("Depth");
+  
+    select(svgRef.current).append("text")
+    .attr("transform", `rotate(-90)`)
+    .attr("x", -(180 / 2))
+    .attr("y", -50)
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .text("Magnitude");
+
     svg
       .selectAll(".circle")
       .data(magData)
