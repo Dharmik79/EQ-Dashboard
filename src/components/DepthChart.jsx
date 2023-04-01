@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./DepthChart.css";
-import { select } from "d3-selection";
+import { select,event as d3Event } from "d3-selection";
 
 import { axisBottom, axisLeft } from "d3-axis";
 import { scaleLinear } from "d3";
 import { extent } from "d3-array";
 import getColor from "../config/color";
 import * as d3 from "d3";
+import { brushX } from "d3-brush";
 import { format } from "d3-format";
 
 function generateIntegerTicks(min, max) {
@@ -61,6 +62,22 @@ function DepthChart({ data }) {
     .style("text-anchor", "middle")
     .text("Depth");
   
+    const brush = brushX()
+      .extent([
+        [0, 0],
+        [420, 180],
+      ])
+      .on("brush end", () => {
+        if (d3Event.selection) {
+          const [minX, maxX] = d3Event.selection;
+         
+        
+        }
+      });
+
+      select(svgRef.current)
+      .selectAll(".brush")
+      .remove();
     select(svgRef.current).append("text")
     .attr("transform", `rotate(-90)`)
     .attr("x", -(180 / 2))
@@ -78,6 +95,11 @@ function DepthChart({ data }) {
       .attr("cy", (d) => yScale(d.magnitude))
       .attr("r", 1)
       .attr("fill", (d) => getColor(d.magnitude));
+
+      select(svgRef.current)
+      .append("g")
+      .attr("class", "brush")
+      .call(brush);
   }, [data]);
   return (
     <div className="depthview">
