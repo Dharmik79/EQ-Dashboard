@@ -6,6 +6,19 @@ import { axisBottom, axisLeft } from "d3-axis";
 import { scaleLinear } from "d3";
 import { extent } from "d3-array";
 import getColor from "../config/color";
+import * as d3 from "d3";
+import { format } from "d3-format";
+
+function generateIntegerTicks(min, max) {
+  const ticks = [];
+  for (let i = Math.ceil(min); i <= max; i++) {
+    if (Number.isInteger(i)) {
+      ticks.push(i);
+    }
+  }
+  return ticks;
+}
+
 function DepthChart({ data }) {
   const svgRef = useRef();
 
@@ -31,15 +44,16 @@ function DepthChart({ data }) {
       .range([0, 400]);
 
     const yScale = scaleLinear()
-      .domain(extent(magData, (d) => d.magnitude))
+      .domain([0, d3.max(magData, (d) => d.magnitude)])
       .range([130, 0]);
 
     const xAxis = axisBottom(xScale);
 
     svg.select(".x-axis").style("transform", "translateY(130px)").call(xAxis);
 
-    const yAxis = axisLeft(yScale);
+    const yAxis = axisLeft(yScale).tickValues(generateIntegerTicks(yScale.domain()[0], yScale.domain()[1]));
 
+    
     svg.select(".y-axis").style("transform", "translateX(0px)").call(yAxis);
 
     svg
