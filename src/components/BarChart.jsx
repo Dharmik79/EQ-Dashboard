@@ -61,19 +61,24 @@ function BarChart({ data, onRangeSelected }) {
       .style("transform", "translateX(0px)")
       .call(yAxis);
     const getNearestMagnitude = (xCoord) => {
-      const index = Math.round((xCoord * uniqueMagnitudes) / 300);
+      const index = Math.round((xCoord * uniqueMagnitudes) / 400);
       return magArray[index] ? magArray[index].mag : null;
     };
     const brush = brushX()
       .extent([
         [0, 0],
-        [300, 150],
+        [400, 130],
       ])
       .on("brush end", () => {
         if (d3Event.selection) {
           const [minX, maxX] = d3Event.selection;
           const selectedMinMag = getNearestMagnitude(minX);
-          const selectedMaxMag = getNearestMagnitude(maxX);
+          let selectedMaxMag = getNearestMagnitude(maxX);
+         
+          if(selectedMaxMag==null)
+          {
+            selectedMaxMag=10
+          }
           onRangeSelected([selectedMinMag, selectedMaxMag]);
         }
       });
