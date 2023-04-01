@@ -59,7 +59,7 @@ function App() {
               <BarChart data={data} onRangeSelected={setSelectedRange} />
             </div>
             <div className="depth-chart">
-              <DepthChart />
+              <DepthChart data={data}/>
             </div>
           </div>
         </div>
