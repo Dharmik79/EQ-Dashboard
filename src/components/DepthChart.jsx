@@ -76,7 +76,10 @@ function DepthChart({ data, onRangeSelected }) {
       .on("brush end", () => {
         if (d3Event.selection) {
           const [minX, maxX] = d3Event.selection;
-          onRangeSelected([minX, maxX]);
+          const selectedMinDepth = xScale.invert(minX);
+          const selectedMaxDepth = xScale.invert(maxX);
+
+          onRangeSelected([selectedMinDepth, selectedMaxDepth]);
         }
       });
 
