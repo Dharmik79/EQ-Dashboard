@@ -38,7 +38,7 @@ function Text({ count, data, geo, setGeo,startDate,endDate }) {
         <p className="h2">
           WORLD'S <br></br>EARTHQUAKES{" "}
         </p>
-        <span className="time-zones">{startDate} to {endDate}</span>
+        <span className="time-zones">Data Range : {startDate} to {endDate}</span>
 
         <div className="earthquakestats">
           <hr />
