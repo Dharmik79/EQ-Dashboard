@@ -56,7 +56,7 @@ function Text({ count, data, geo, setGeo,startDate,endDate }) {
         </div>
 
         <div className="hot-zones">
-          <p>HOT ZONES:</p>
+          <p className="hot-zone-underline">HOT ZONES:</p>
           <ul>
             <li
               onClick={() => {
@@ -116,7 +116,7 @@ function Text({ count, data, geo, setGeo,startDate,endDate }) {
           </ul>
         </div>
         <div className="recent-earthquakes">
-          <p>RECENT EARTHQUAKES:</p>
+          <p className="recent-earthquake-underline">RECENT EARTHQUAKES:</p>
           <ul>
             <li
               onClick={() => {
