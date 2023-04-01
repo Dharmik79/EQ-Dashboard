@@ -37,12 +37,12 @@ function BarChart({ data, onRangeSelected }) {
     const barWidth = 300 / uniqueMagnitudes - 1;
     const x = scaleBand()
       .domain(magArray.map((d) => d.mag))
-      .range([0, 400])
+      .range([0, 420])
       .paddingInner(0.1);
 
     const y = scaleLinear()
       .domain([0, d3.max(magArray, (d) => d.count)])
-      .range([130, 0]);
+      .range([180, 0]);
 
     const integerTickValues = magArray
       .map((d) => d.mag)
@@ -53,7 +53,7 @@ function BarChart({ data, onRangeSelected }) {
 
     select(svgRef.current)
       .select(".x-axis")
-      .style("transform", "translateY(130px)")
+      .style("transform", "translateY(180px)")
       .call(xAxis);
 
     select(svgRef.current)
@@ -61,13 +61,13 @@ function BarChart({ data, onRangeSelected }) {
       .style("transform", "translateX(0px)")
       .call(yAxis);
     const getNearestMagnitude = (xCoord) => {
-      const index = Math.round((xCoord * uniqueMagnitudes) / 400);
+      const index = Math.round((xCoord * uniqueMagnitudes) / 420);
       return magArray[index] ? magArray[index].mag : null;
     };
     const brush = brushX()
       .extent([
         [0, 0],
-        [400, 130],
+        [420, 180],
       ])
       .on("brush end", () => {
         if (d3Event.selection) {
@@ -112,7 +112,7 @@ function BarChart({ data, onRangeSelected }) {
       .attr("x", (d) => x(d.mag))
       .attr("y", (d) => y(d.count))
       .attr("width", barWidth)
-      .attr("height", (d) => 130 - y(d.count))
+      .attr("height", (d) => 180 - y(d.count))
       .attr("fill", (d) => getColor(d.mag))
       .on("click", (d) => {
         console.log("d", d);
@@ -130,7 +130,7 @@ function BarChart({ data, onRangeSelected }) {
     <p className="bar-chart-name">Earthquake Magnitude Histogram</p>
     <button className="button-style" onClick={resetBrushRef.current}> Reset Brush</button>
   </div>
-  <svg ref={svgRef} style={{ overflow: "visible" }}>
+  <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "10dvh" }}>
     <g className="x-axis"></g>
     <g className="y-axis"></g>
   </svg>
