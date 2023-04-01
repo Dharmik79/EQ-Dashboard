@@ -38,7 +38,7 @@ function Text({ count, data, geo, setGeo,startDate,endDate }) {
         <p className="h2">
           WORLD'S <br></br>EARTHQUAKES{" "}
         </p>
-        <span className="hot-zones">{startDate} to {endDate}</span>
+        <span className="time-zones">Data Range : {startDate} to {endDate}</span>
 
         <div className="earthquakestats">
           <hr />
@@ -56,7 +56,7 @@ function Text({ count, data, geo, setGeo,startDate,endDate }) {
         </div>
 
         <div className="hot-zones">
-          <p>HOT ZONES:</p>
+          <p className="hot-zone-underline">HOT ZONES:</p>
           <ul>
             <li
               onClick={() => {
@@ -116,7 +116,7 @@ function Text({ count, data, geo, setGeo,startDate,endDate }) {
           </ul>
         </div>
         <div className="recent-earthquakes">
-          <p>RECENT EARTHQUAKES:</p>
+          <p className="recent-earthquake-underline">RECENT EARTHQUAKES:</p>
           <ul>
             <li
               onClick={() => {

@@ -5,7 +5,7 @@ import { axisBottom, axisLeft } from "d3-axis";
 import { scaleLinear, scaleBand } from "d3";
 import { brushX } from "d3-brush";
 import * as d3 from "d3";
-
+import getColor from "../config/color";
 function BarChart({ data, onRangeSelected }) {
   const svgRef = useRef();
   const resetBrushRef = useRef(null);
@@ -37,12 +37,12 @@ function BarChart({ data, onRangeSelected }) {
     const barWidth = 300 / uniqueMagnitudes - 1;
     const x = scaleBand()
       .domain(magArray.map((d) => d.mag))
-      .range([0, 300])
+      .range([0, 420])
       .paddingInner(0.1);
 
     const y = scaleLinear()
       .domain([0, d3.max(magArray, (d) => d.count)])
-      .range([150, 0]);
+      .range([180, 0]);
 
     const integerTickValues = magArray
       .map((d) => d.mag)
@@ -53,7 +53,7 @@ function BarChart({ data, onRangeSelected }) {
 
     select(svgRef.current)
       .select(".x-axis")
-      .style("transform", "translateY(150px)")
+      .style("transform", "translateY(180px)")
       .call(xAxis);
 
     select(svgRef.current)
@@ -61,34 +61,41 @@ function BarChart({ data, onRangeSelected }) {
       .style("transform", "translateX(0px)")
       .call(yAxis);
     const getNearestMagnitude = (xCoord) => {
-      const index = Math.round((xCoord * uniqueMagnitudes) / 300);
+      const index = Math.round((xCoord * uniqueMagnitudes) / 420);
       return magArray[index] ? magArray[index].mag : null;
     };
     const brush = brushX()
       .extent([
         [0, 0],
-        [300, 150],
+        [420, 180],
       ])
       .on("brush end", () => {
         if (d3Event.selection) {
           const [minX, maxX] = d3Event.selection;
           const selectedMinMag = getNearestMagnitude(minX);
-          const selectedMaxMag = getNearestMagnitude(maxX);
+          let selectedMaxMag = getNearestMagnitude(maxX);
+         
+          if(selectedMaxMag==null)
+          {
+            selectedMaxMag=10
+          }
           onRangeSelected([selectedMinMag, selectedMaxMag]);
         }
       });
+      select(svgRef.current).append("text")
+  .attr("transform", `translate(${420 / 2},${210})`)
+  .style("text-anchor", "middle")
+  .text("Magnitude");
 
-    const getColor = (mag) => {
-      if (mag >= -2 && mag < -1) return "white";
-      if (mag >= -1 && mag < 0) return "blue";
-      if (mag >= 0 && mag < 1) return "black";
-      if (mag >= 1 && mag < 2) return "steelblue";
-      if (mag >= 2 && mag < 3) return "pink";
-      if (mag >= 3 && mag < 4) return "yellow";
-      if (mag >= 4 && mag < 5) return "orange";
-      if (mag >= 5 && mag < 6) return "red";
-      return "gray";
-    };
+  select(svgRef.current).append("text")
+  .attr("transform", `rotate(-90)`)
+  .attr("x", -(180 / 2))
+  .attr("y", -50)
+  .attr("dy", "1em")
+  .style("text-anchor", "middle")
+  .text("Total Count");
+
+
     select(svgRef.current)
       .selectAll(".brush")
       .remove();
@@ -107,7 +114,7 @@ function BarChart({ data, onRangeSelected }) {
       .attr("x", (d) => x(d.mag))
       .attr("y", (d) => y(d.count))
       .attr("width", barWidth)
-      .attr("height", (d) => 150 - y(d.count))
+      .attr("height", (d) => 180 - y(d.count))
       .attr("fill", (d) => getColor(d.mag))
       .on("click", (d) => {
         console.log("d", d);
@@ -123,9 +130,9 @@ function BarChart({ data, onRangeSelected }) {
     <div className="barview">
   <div style={{ display: "flex", justifyContent: "space-between" ,alignItems:"center"}}>
     <p className="bar-chart-name">Earthquake Magnitude Histogram</p>
-    <button className="button-style" onClick={resetBrushRef.current}> Reset Brush</button>
+    <button className="button-style" onClick={resetBrushRef.current}>Reset </button>
   </div>
-  <svg ref={svgRef} style={{ overflow: "visible" }}>
+  <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "12dvh" }}>
     <g className="x-axis"></g>
     <g className="y-axis"></g>
   </svg>
