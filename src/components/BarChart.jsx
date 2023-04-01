@@ -82,6 +82,18 @@ function BarChart({ data, onRangeSelected }) {
           onRangeSelected([selectedMinMag, selectedMaxMag]);
         }
       });
+      select(svgRef.current).append("text")
+  .attr("transform", `translate(${420 / 2},${210})`)
+  .style("text-anchor", "middle")
+  .text("Magnitude");
+
+  select(svgRef.current).append("text")
+  .attr("transform", `rotate(-90)`)
+  .attr("x", -(180 / 2))
+  .attr("y", -50)
+  .attr("dy", "1em")
+  .style("text-anchor", "middle")
+  .text("Total Count");
 
     const getColor = (mag) => {
       if (mag >= -2 && mag < -1) return "white";
@@ -130,7 +142,7 @@ function BarChart({ data, onRangeSelected }) {
     <p className="bar-chart-name">Earthquake Magnitude Histogram</p>
     <button className="button-style" onClick={resetBrushRef.current}> Reset Brush</button>
   </div>
-  <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "10dvh" }}>
+  <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "12dvh" }}>
     <g className="x-axis"></g>
     <g className="y-axis"></g>
   </svg>
