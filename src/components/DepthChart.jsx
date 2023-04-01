@@ -89,7 +89,7 @@ function DepthChart({ data }) {
         }}
       >
         <p className="bar-chart-name">Depth Chart Analysis</p>
-        <button className="button-style"> Reset Brush</button>
+        <button className="button-style"> Reset </button>
       </div>
       <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "10dvh" }}>
         <g className="x-axis"></g>

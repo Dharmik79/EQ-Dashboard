@@ -31,7 +31,7 @@
   .text-container {
     width: 25%;
     height: 88dvh;
-    border: 4px solid gray;
+    border: 2px solid gray;
     box-sizing: border-box;
     margin-right: 5px;
     margin-bottom: 1dvh;
@@ -49,7 +49,7 @@
   .time-container {
     height: 100%;
     height: 10dvh;
-    border: 4px solid gray;
+    border: 2px solid gray;
     box-sizing: border-box;
     /* background-color:rgb(80, 131, 159); */
   }
