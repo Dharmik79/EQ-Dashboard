@@ -127,7 +127,12 @@ function Map({ data, geo, setGeo, selectedRange }) {
               }}
             >
               <Tooltip>
-                {`Latitude: ${latitude}, Longitude: ${longitude} place: ${cluster.properties.place} magnitude: ${cluster.properties.mag}`}
+                <div className="tool-tip">
+              <div>Latitude: {latitude}</div>
+  <div>Longitude: {longitude}</div>
+  <div>Place: {cluster.properties.place}</div>
+  <div>Magnitude: {cluster.properties.mag}</div>
+  </div>
               </Tooltip>
               {/* <Popup>{`Latitude: ${latitude}, Longitude: ${longitude}`}</Popup> */}
             </Marker>
