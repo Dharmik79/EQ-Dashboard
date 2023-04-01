@@ -41,15 +41,15 @@ function DepthChart({ data }) {
     const margin = (depthExtent[1] - depthExtent[0]) *0.005; // Calculate 5% margin
     const xScale = scaleLinear()
       .domain([depthExtent[0] - margin, depthExtent[1]]) // Add the margin to the minimum depth value
-      .range([0, 400]);
+      .range([0, 420]);
 
     const yScale = scaleLinear()
       .domain([0, d3.max(magData, (d) => d.magnitude)])
-      .range([130, 0]);
+      .range([180, 0]);
 
     const xAxis = axisBottom(xScale);
 
-    svg.select(".x-axis").style("transform", "translateY(130px)").call(xAxis);
+    svg.select(".x-axis").style("transform", "translateY(180px)").call(xAxis);
 
     const yAxis = axisLeft(yScale).tickValues(generateIntegerTicks(yScale.domain()[0], yScale.domain()[1]));
 
@@ -78,7 +78,7 @@ function DepthChart({ data }) {
         <p className="bar-chart-name">Depth Chart Analysis</p>
         <button className="button-style"> Reset Brush</button>
       </div>
-      <svg ref={svgRef} style={{ overflow: "visible" }}>
+      <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "10dvh" }}>
         <g className="x-axis"></g>
         <g className="y-axis"></g>
       </svg>
