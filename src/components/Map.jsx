@@ -27,7 +27,7 @@ const fetchIcon = (count, size) => {
   return icons[count];
 };
 
-function Map({ data, geo, setGeo, selectedRange }) {
+function Map({ data, geo, setGeo, selectedRange, selectedDepthRange }) {
   const [bounds, setBounds] = useState(null);
   const [zoom, setZoom] = useState(5); // set the default zoom level
   const mapRef = useRef(); // adding reference to the leaflet map
@@ -62,9 +62,17 @@ function Map({ data, geo, setGeo, selectedRange }) {
   const { clusters, supercluster } = useSupercluster({
     points: data
       ? data.features.filter((feature) =>
-          selectedRange
+          selectedRange && selectedDepthRange
+            ? feature.properties.mag >= selectedRange[0] &&
+              feature.properties.mag <= selectedRange[1] &&
+              feature.geometry.coordinates[2] >= selectedDepthRange[0] &&
+              feature.geometry.coordinates[2] <= selectedDepthRange[1]
+            : selectedRange && !selectedDepthRange
             ? feature.properties.mag >= selectedRange[0] &&
               feature.properties.mag <= selectedRange[1]
+            : !selectedRange && selectedDepthRange
+            ? feature.geometry.coordinates[2] >= selectedDepthRange[0] &&
+              feature.geometry.coordinates[2] <= selectedDepthRange[1]
             : true
         )
       : [],
@@ -76,7 +84,7 @@ function Map({ data, geo, setGeo, selectedRange }) {
   return (
     <div className="map" style={{ height: "100%", width: "100%" }}>
       <MapContainer
-        center={geo ? [geo.lat, geo.long] : [38.58, -102.90]}
+        center={geo ? [geo.lat, geo.long] : [38.58, -102.9]}
         zoom={geo ? 10 : 5}
         style={{ height: "100%", width: "100%" }}
         ref={mapRef}
@@ -128,11 +136,12 @@ function Map({ data, geo, setGeo, selectedRange }) {
             >
               <Tooltip>
                 <div className="tool-tip">
-              <div>Latitude: {latitude}</div>
-  <div>Longitude: {longitude}</div>
-  <div>Place: {cluster.properties.place}</div>
-  <div>Magnitude: {cluster.properties.mag}</div>
-  </div>
+                  <div>Latitude: {latitude}</div>
+                  <div>Longitude: {longitude}</div>
+                  <div>Place: {cluster.properties.place}</div>
+                  <div>Magnitude: {cluster.properties.mag}</div>
+                  <div>Depth: {cluster.geometry.coordinates[2]} km</div>
+                </div>
               </Tooltip>
               {/* <Popup>{`Latitude: ${latitude}, Longitude: ${longitude}`}</Popup> */}
             </Marker>

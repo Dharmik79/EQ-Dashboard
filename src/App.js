@@ -11,10 +11,10 @@ import commonApi from "./api/common";
 function App() {
   const [data, setData] = useState(null);
   const [startDate, setStartDate] = useState("2022-01-01");
-  const [endDate, setEndDate] = useState("2022-01-31");
+  const [endDate, setEndDate] = useState("2022-01-11");
   const [count, setCount] = useState();
   const [selectedRange, setSelectedRange] = useState(null);
-
+  const [selectedDepthRange, setSelectedDepthRange] = useState(null);
   const [geo, setGeo] = useState(null);
   const [year,setYear]=useState("2022")
   const getData = async () => {
@@ -51,6 +51,7 @@ function App() {
           <Map
             data={data}
             selectedRange={selectedRange}
+            selectedDepthRange={selectedDepthRange}
             geo={geo}
             setGeo={setGeo}
           />
@@ -59,7 +60,7 @@ function App() {
               <BarChart data={data} onRangeSelected={setSelectedRange} />
             </div>
             <div className="depth-chart">
-              <DepthChart data={data}/>
+              <DepthChart data={data} onRangeSelected={setSelectedDepthRange}/>
             </div>
           </div>
         </div>
