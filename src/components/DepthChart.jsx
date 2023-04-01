@@ -29,11 +29,11 @@ function DepthChart({ data }) {
 
     const yScale = scaleLinear()
       .domain(extent(magData, (d) => d.magnitude))
-      .range([150, 0]);
+      .range([130, 0]);
 
     const xAxis = axisBottom(xScale);
 
-    svg.select(".x-axis").style("transform", "translateY(150px)").call(xAxis);
+    svg.select(".x-axis").style("transform", "translateY(130px)").call(xAxis);
 
     const yAxis = axisLeft(yScale);
 
