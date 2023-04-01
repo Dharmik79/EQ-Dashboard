@@ -37,12 +37,12 @@ function BarChart({ data, onRangeSelected }) {
     const barWidth = 300 / uniqueMagnitudes - 1;
     const x = scaleBand()
       .domain(magArray.map((d) => d.mag))
-      .range([0, 300])
+      .range([0, 400])
       .paddingInner(0.1);
 
     const y = scaleLinear()
       .domain([0, d3.max(magArray, (d) => d.count)])
-      .range([150, 0]);
+      .range([130, 0]);
 
     const integerTickValues = magArray
       .map((d) => d.mag)
@@ -53,7 +53,7 @@ function BarChart({ data, onRangeSelected }) {
 
     select(svgRef.current)
       .select(".x-axis")
-      .style("transform", "translateY(150px)")
+      .style("transform", "translateY(130px)")
       .call(xAxis);
 
     select(svgRef.current)
@@ -107,7 +107,7 @@ function BarChart({ data, onRangeSelected }) {
       .attr("x", (d) => x(d.mag))
       .attr("y", (d) => y(d.count))
       .attr("width", barWidth)
-      .attr("height", (d) => 150 - y(d.count))
+      .attr("height", (d) => 130 - y(d.count))
       .attr("fill", (d) => getColor(d.mag))
       .on("click", (d) => {
         console.log("d", d);
