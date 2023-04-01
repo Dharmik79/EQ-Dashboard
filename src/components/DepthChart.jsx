@@ -22,7 +22,7 @@ function generateIntegerTicks(min, max) {
 
 function DepthChart({ data }) {
   const svgRef = useRef();
-
+  const resetBrushRef = useRef(null);
   useEffect(() => {
     if (!data) return;
 
@@ -37,7 +37,11 @@ function DepthChart({ data }) {
     });
 
     const svg = select(svgRef.current);
-
+    const resetBrush = () => {
+      svg.select(".brush").call(brush.move, null);
+     
+    };
+    resetBrushRef.current = resetBrush;
     const depthExtent = extent(magData, (d) => d.depth);
     const margin = (depthExtent[1] - depthExtent[0]) *0.005; // Calculate 5% margin
     const xScale = scaleLinear()
@@ -111,7 +115,7 @@ function DepthChart({ data }) {
         }}
       >
         <p className="bar-chart-name">Depth Chart Analysis</p>
-        <button className="button-style"> Reset </button>
+        <button className="button-style" onClick={resetBrushRef.current}> Reset </button>
       </div>
       <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "10dvh" }}>
         <g className="x-axis"></g>
