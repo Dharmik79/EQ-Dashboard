@@ -104,7 +104,7 @@ const TimeLineChart = ({
         .append("rect")
         .attr("width", width)
         .attr("height", height)
-        .attr("fill", "gray");
+        .attr("fill", "lightgray");
 
       svg
         .append("g")
