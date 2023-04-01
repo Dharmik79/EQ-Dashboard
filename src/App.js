@@ -14,7 +14,7 @@ function App() {
   const [endDate, setEndDate] = useState("2022-01-11");
   const [count, setCount] = useState();
   const [selectedRange, setSelectedRange] = useState(null);
-
+  const [selectedDepthRange, setSelectedDepthRange] = useState(null);
   const [geo, setGeo] = useState(null);
   const [year,setYear]=useState("2022")
   const getData = async () => {
@@ -51,6 +51,7 @@ function App() {
           <Map
             data={data}
             selectedRange={selectedRange}
+            selectedDepthRange={selectedDepthRange}
             geo={geo}
             setGeo={setGeo}
           />
@@ -59,7 +60,7 @@ function App() {
               <BarChart data={data} onRangeSelected={setSelectedRange} />
             </div>
             <div className="depth-chart">
-              <DepthChart data={data}/>
+              <DepthChart data={data} onRangeSelected={setSelectedDepthRange}/>
             </div>
           </div>
         </div>

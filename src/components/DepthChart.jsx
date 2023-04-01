@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./DepthChart.css";
-import { select,event as d3Event } from "d3-selection";
+import { select, event as d3Event } from "d3-selection";
 
 import { axisBottom, axisLeft } from "d3-axis";
 import { scaleLinear } from "d3";
@@ -20,7 +20,7 @@ function generateIntegerTicks(min, max) {
   return ticks;
 }
 
-function DepthChart({ data }) {
+function DepthChart({ data, onRangeSelected }) {
   const svgRef = useRef();
   const resetBrushRef = useRef(null);
   useEffect(() => {
@@ -39,11 +39,11 @@ function DepthChart({ data }) {
     const svg = select(svgRef.current);
     const resetBrush = () => {
       svg.select(".brush").call(brush.move, null);
-     
+      onRangeSelected(null);
     };
     resetBrushRef.current = resetBrush;
     const depthExtent = extent(magData, (d) => d.depth);
-    const margin = (depthExtent[1] - depthExtent[0]) *0.005; // Calculate 5% margin
+    const margin = (depthExtent[1] - depthExtent[0]) * 0.005; // Calculate 5% margin
     const xScale = scaleLinear()
       .domain([depthExtent[0] - margin, depthExtent[1]]) // Add the margin to the minimum depth value
       .range([0, 420]);
@@ -56,16 +56,18 @@ function DepthChart({ data }) {
 
     svg.select(".x-axis").style("transform", "translateY(180px)").call(xAxis);
 
-    const yAxis = axisLeft(yScale).tickValues(generateIntegerTicks(yScale.domain()[0], yScale.domain()[1]));
+    const yAxis = axisLeft(yScale).tickValues(
+      generateIntegerTicks(yScale.domain()[0], yScale.domain()[1])
+    );
 
-    
     svg.select(".y-axis").style("transform", "translateX(0px)").call(yAxis);
 
-    select(svgRef.current).append("text")
-    .attr("transform", `translate(${420 / 2},${210})`)
-    .style("text-anchor", "middle")
-    .text("Depth");
-  
+    select(svgRef.current)
+      .append("text")
+      .attr("transform", `translate(${420 / 2},${210})`)
+      .style("text-anchor", "middle")
+      .text("Depth");
+
     const brush = brushX()
       .extent([
         [0, 0],
@@ -74,21 +76,20 @@ function DepthChart({ data }) {
       .on("brush end", () => {
         if (d3Event.selection) {
           const [minX, maxX] = d3Event.selection;
-         
-        
+          onRangeSelected([minX, maxX]);
         }
       });
 
-      select(svgRef.current)
-      .selectAll(".brush")
-      .remove();
-    select(svgRef.current).append("text")
-    .attr("transform", `rotate(-90)`)
-    .attr("x", -(180 / 2))
-    .attr("y", -50)
-    .attr("dy", "1em")
-    .style("text-anchor", "middle")
-    .text("Magnitude");
+    select(svgRef.current).selectAll(".brush").remove();
+    onRangeSelected(null);
+    select(svgRef.current)
+      .append("text")
+      .attr("transform", `rotate(-90)`)
+      .attr("x", -(180 / 2))
+      .attr("y", -50)
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Magnitude");
 
     svg
       .selectAll(".circle")
@@ -100,10 +101,7 @@ function DepthChart({ data }) {
       .attr("r", 1)
       .attr("fill", (d) => getColor(d.magnitude));
 
-      select(svgRef.current)
-      .append("g")
-      .attr("class", "brush")
-      .call(brush);
+    select(svgRef.current).append("g").attr("class", "brush").call(brush);
   }, [data]);
   return (
     <div className="depthview">
@@ -115,7 +113,10 @@ function DepthChart({ data }) {
         }}
       >
         <p className="bar-chart-name">Depth Chart Analysis</p>
-        <button className="button-style" onClick={resetBrushRef.current}> Reset </button>
+        <button className="button-style" onClick={resetBrushRef.current}>
+          {" "}
+          Reset{" "}
+        </button>
       </div>
       <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "10dvh" }}>
         <g className="x-axis"></g>
