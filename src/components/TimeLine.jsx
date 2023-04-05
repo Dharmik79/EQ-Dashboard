@@ -29,7 +29,6 @@ const GetSelectedYear = ({
     <select id="year" name="year" onChange={onChange}>
       <option value="">Select Year</option>
       {[
-        "2023",
         "2022",
         "2021",
         "2020",
@@ -38,6 +37,21 @@ const GetSelectedYear = ({
         "2017",
         "2016",
         "2015",
+        "2014",
+        "2013",
+        "2012",
+        "2011",
+        "2010",
+        "2009",
+        "2008",
+        "2007",
+        "2006",
+        "2005",
+        "2004",
+        "2003",
+        "2002",
+        "2001",
+        "2000",
       ].map((year) => (
         <option key={year} value={year} selected={year === yearSelected}>
           {year}
