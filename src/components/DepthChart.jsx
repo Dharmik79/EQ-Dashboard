@@ -81,6 +81,9 @@ function DepthChart({ data, onRangeSelected }) {
 
           onRangeSelected([selectedMinDepth, selectedMaxDepth]);
         }
+        else {
+          onRangeSelected(null);
+        }
       });
 
     select(svgRef.current).selectAll(".brush").remove();
