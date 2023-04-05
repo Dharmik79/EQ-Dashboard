@@ -66,7 +66,7 @@ function DepthChart({ data, onRangeSelected }) {
       .append("text")
       .attr("transform", `translate(${420 / 2},${210})`)
       .style("text-anchor", "middle")
-      .text("Depth");
+      .text("Depth (KM)");
 
     const brush = brushX()
       .extent([
