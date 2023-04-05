@@ -146,8 +146,8 @@ const TimeLineChart = ({
           setStartDate(selectedStartDate.toISOString().split("T")[0]);
           setEndDate(selectedEndDate.toISOString().split("T")[0]);
         } else {
-          setStartDate(null);
-          setEndDate(null);
+          // setStartDate(null);
+          // setEndDate(null);
         }
 
         svg.selectAll(".selection").attr("fill", selection ? "blue" : "gray");
