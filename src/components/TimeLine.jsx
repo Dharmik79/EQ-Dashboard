@@ -137,21 +137,40 @@ const TimeLineChart = ({
             : null
         );
 
-      function brushed() {
-        const selection = d3.event.selection;
-        const selectedStartDate = selection ? x.invert(selection[0]) : null;
-        const selectedEndDate = selection ? x.invert(selection[1]) : null;
-
-        if (selectedStartDate && selectedEndDate) {
-          setStartDate(selectedStartDate.toISOString().split("T")[0]);
-          setEndDate(selectedEndDate.toISOString().split("T")[0]);
-        } else {
-          // setStartDate(null);
-          // setEndDate(null);
+        function brushed() {
+          const maxBrushDuration = 31; 
+          const selection = d3.event.selection;
+          let selectedStartDate = selection ? x.invert(selection[0]) : null;
+          let selectedEndDate = selection ? x.invert(selection[1]) : null;
+        
+          if (selectedStartDate && selectedEndDate) {
+            const dateDifference = Math.abs(
+              (selectedEndDate - selectedStartDate) / (1000 * 60 * 60 * 24)
+            );
+            if (dateDifference > maxBrushDuration) {
+              selectedEndDate = new Date(
+                selectedStartDate.getTime() + maxBrushDuration * 24 * 60 * 60 * 1000
+              );
+              if (selectedEndDate > eDate) {
+                selectedEndDate = eDate;
+                selectedStartDate = new Date(
+                  selectedEndDate.getTime() - maxBrushDuration * 24 * 60 * 60 * 1000
+                );
+              }
+              svg.select(".brush").call(brush.move, [
+                x(selectedStartDate),
+                x(selectedEndDate),
+              ]);
+            }
+            setStartDate(selectedStartDate.toISOString().split("T")[0]);
+            setEndDate(selectedEndDate.toISOString().split("T")[0]);
+          } else {
+            // setStartDate(null);
+            // setEndDate(null);
+          }
+        
+          svg.selectAll(".selection").attr("fill", selection ? "blue" : "gray");
         }
-
-        svg.selectAll(".selection").attr("fill", selection ? "blue" : "gray");
-      }
     }
   }, [data, startDate, endDate, year]);
   return (
