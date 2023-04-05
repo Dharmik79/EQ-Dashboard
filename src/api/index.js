@@ -15,8 +15,7 @@ const ACTION_HANDLERS = {
     //   console.log("queryURL",queryUrl)
     // }
 
-    console.log("query",baseUrl+queryUrl)
-    return axios.get(baseUrl+queryUrl , {
+    return axios.get(baseUrl+queryUrl+"&mindepth=0&maxdepth=250&minmagnitude=0" , {
       headers
     });
   },

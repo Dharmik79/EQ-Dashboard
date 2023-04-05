@@ -43,7 +43,7 @@ function DepthChart({ data, onRangeSelected }) {
     };
     resetBrushRef.current = resetBrush;
     const depthExtent = extent(magData, (d) => d.depth);
-    const margin = (depthExtent[1] - depthExtent[0]) * 0.005; // Calculate 5% margin
+    const margin = (depthExtent[1] - depthExtent[0]) * 0.003; // Calculate 5% margin
     const xScale = scaleLinear()
       .domain([depthExtent[0] - margin, depthExtent[1]]) // Add the margin to the minimum depth value
       .range([0, 420]);
