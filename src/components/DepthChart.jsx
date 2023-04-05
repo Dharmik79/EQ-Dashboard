@@ -31,7 +31,7 @@ function DepthChart({ data, onRangeSelected }) {
     data.features.forEach((feature) => {
       const mag = Math.round(feature.properties.mag * 10) / 10;
       const depth = feature.geometry.coordinates[2];
-      if (depth > 0 && mag > 0) {
+      if (depth > 0 ) {
         magData.push({ depth: depth, magnitude: mag });
       }
     });
@@ -49,7 +49,7 @@ function DepthChart({ data, onRangeSelected }) {
       .range([0, 420]);
 
     const yScale = scaleLinear()
-      .domain([0, d3.max(magData, (d) => d.magnitude)])
+      .domain([d3.min(magData, (d) => d.magnitude), d3.max(magData, (d) => d.magnitude)])
       .range([180, 0]);
 
     const xAxis = axisBottom(xScale);
@@ -80,6 +80,9 @@ function DepthChart({ data, onRangeSelected }) {
           const selectedMaxDepth = xScale.invert(maxX);
 
           onRangeSelected([selectedMinDepth, selectedMaxDepth]);
+        }
+        else {
+          onRangeSelected(null);
         }
       });
 

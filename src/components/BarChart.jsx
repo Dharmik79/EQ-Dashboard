@@ -74,31 +74,31 @@ function BarChart({ data, onRangeSelected }) {
           const [minX, maxX] = d3Event.selection;
           const selectedMinMag = getNearestMagnitude(minX);
           let selectedMaxMag = getNearestMagnitude(maxX);
-         
-          if(selectedMaxMag==null)
-          {
-            selectedMaxMag=10
+
+          if (selectedMaxMag == null) {
+            selectedMaxMag = 10;
           }
           onRangeSelected([selectedMinMag, selectedMaxMag]);
+        } else {
+          onRangeSelected(null);
         }
       });
-      select(svgRef.current).append("text")
-  .attr("transform", `translate(${420 / 2},${210})`)
-  .style("text-anchor", "middle")
-  .text("Magnitude");
-
-  select(svgRef.current).append("text")
-  .attr("transform", `rotate(-90)`)
-  .attr("x", -(180 / 2))
-  .attr("y", -50)
-  .attr("dy", "1em")
-  .style("text-anchor", "middle")
-  .text("Total Count");
-
+    select(svgRef.current)
+      .append("text")
+      .attr("transform", `translate(${420 / 2},${210})`)
+      .style("text-anchor", "middle")
+      .text("Magnitude");
 
     select(svgRef.current)
-      .selectAll(".brush")
-      .remove();
+      .append("text")
+      .attr("transform", `rotate(-90)`)
+      .attr("x", -(180 / 2))
+      .attr("y", -50)
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text("Total Count");
+
+    select(svgRef.current).selectAll(".brush").remove();
     onRangeSelected(null);
     const svg = select(svgRef.current);
     const resetBrush = () => {
@@ -120,23 +120,32 @@ function BarChart({ data, onRangeSelected }) {
         console.log("d", d);
       });
 
-    select(svgRef.current)
-      .append("g")
-      .attr("class", "brush")
-      .call(brush);
+    select(svgRef.current).append("g").attr("class", "brush").call(brush);
   }, [data]);
 
   return (
     <div className="barview">
-  <div style={{ display: "flex", justifyContent: "space-between" ,alignItems:"center"}}>
-    <p className="bar-chart-name">Earthquake Magnitude Histogram</p>
-    <button className="button-style" onClick={resetBrushRef.current} style={{cursor:"pointer"}}>Reset </button>
-  </div>
-  <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "12dvh" }}>
-    <g className="x-axis"></g>
-    <g className="y-axis"></g>
-  </svg>
-</div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <p className="bar-chart-name">Earthquake Magnitude Histogram</p>
+        <button
+          className="button-style"
+          onClick={resetBrushRef.current}
+          style={{ cursor: "pointer" }}
+        >
+          Reset{" "}
+        </button>
+      </div>
+      <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "12dvh" }}>
+        <g className="x-axis"></g>
+        <g className="y-axis"></g>
+      </svg>
+    </div>
   );
 }
 

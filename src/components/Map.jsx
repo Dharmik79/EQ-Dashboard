@@ -84,8 +84,8 @@ function Map({ data, geo, setGeo, selectedRange, selectedDepthRange }) {
   return (
     <div className="map" style={{ height: "100%", width: "100%" }}>
       <MapContainer
-        center={geo ? [geo.lat, geo.long] : [38.58, -102.9]}
-        zoom={geo ? 10 : 5}
+        center={geo ? [geo.lat, geo.long] : [39.2532498, 43.6487262]}
+        zoom={geo ? 10 : 2}
         style={{ height: "100%", width: "100%" }}
         ref={mapRef}
         minZoom={2} // Set the minimum zoom level
