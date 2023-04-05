@@ -138,12 +138,17 @@ const TimeLineChart = ({
         );
 
         function brushed() {
-          const maxBrushDuration = 31; 
           const selection = d3.event.selection;
           let selectedStartDate = selection ? x.invert(selection[0]) : null;
           let selectedEndDate = selection ? x.invert(selection[1]) : null;
         
           if (selectedStartDate && selectedEndDate) {
+            const daysInMonth = new Date(
+              selectedStartDate.getFullYear(),
+              selectedStartDate.getMonth() + 1,
+              0
+            ).getDate();
+            const maxBrushDuration = daysInMonth;
             const dateDifference = Math.abs(
               (selectedEndDate - selectedStartDate) / (1000 * 60 * 60 * 24)
             );
@@ -171,6 +176,7 @@ const TimeLineChart = ({
         
           svg.selectAll(".selection").attr("fill", selection ? "blue" : "gray");
         }
+        
     }
   }, [data, startDate, endDate, year]);
   return (
