@@ -23,11 +23,11 @@ function App() {
       parameters: [{ startDate: startDate, endDate: endDate }],
     });
     setData(resultData);
-    let resultCount = await commonApi({
-      action: "getCount",
-      parameters: [{ startDate: startDate, endDate: endDate }],
-    });
-    setCount(resultCount);
+    
+    setCount(resultData.metadata.count);
+    return () => {
+      abortController.abort();
+    };
   };
 
   useEffect(() => {
