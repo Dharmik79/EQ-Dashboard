@@ -26,6 +26,7 @@ const fetchIcon = (count, size) => {
   }
   return icons[count];
 };
+const worldBounds = L.latLngBounds(L.latLng(-90, -180), L.latLng(90, 180));
 
 function Map({ data, geo, setGeo, selectedRange, selectedDepthRange }) {
   const [bounds, setBounds] = useState(null);
@@ -91,6 +92,7 @@ function Map({ data, geo, setGeo, selectedRange, selectedDepthRange }) {
         minZoom={2} // Set the minimum zoom level
         maxZoom={17} // Set the maximum zoom level
         onMoveEnd={updateMap}
+        maxBounds={worldBounds}
       >
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
