@@ -23,6 +23,8 @@ function generateIntegerTicks(min, max) {
 function DepthChart({ data, onRangeSelected }) {
   const svgRef = useRef();
   const resetBrushRef = useRef(null);
+  const width=420
+  const height=165
   useEffect(() => {
     if (!data) return;
 
@@ -46,15 +48,15 @@ function DepthChart({ data, onRangeSelected }) {
     const margin = (depthExtent[1] - depthExtent[0]) * 0.003; // Calculate 5% margin
     const xScale = scaleLinear()
       .domain([depthExtent[0] - margin, depthExtent[1]]) // Add the margin to the minimum depth value
-      .range([0, 420]);
+      .range([0, width]);
 
     const yScale = scaleLinear()
       .domain([d3.min(magData, (d) => d.magnitude), d3.max(magData, (d) => d.magnitude)])
-      .range([180, 0]);
+      .range([height, 0]);
 
     const xAxis = axisBottom(xScale);
 
-    svg.select(".x-axis").style("transform", "translateY(180px)").call(xAxis);
+    svg.select(".x-axis").style("transform",`translateY(${height}px)`).call(xAxis);
 
     const yAxis = axisLeft(yScale).tickValues(
       generateIntegerTicks(yScale.domain()[0], yScale.domain()[1])
@@ -64,14 +66,14 @@ function DepthChart({ data, onRangeSelected }) {
 
     select(svgRef.current)
       .append("text")
-      .attr("transform", `translate(${420 / 2},${210})`)
+      .attr("transform", `translate(${width / 2},${width/2-10})`)
       .style("text-anchor", "middle")
       .text("Depth (KM)");
 
     const brush = brushX()
       .extent([
         [0, 0],
-        [420, 180],
+        [width, height],
       ])
       .on("brush end", () => {
         if (d3Event.selection) {
@@ -91,7 +93,7 @@ function DepthChart({ data, onRangeSelected }) {
     select(svgRef.current)
       .append("text")
       .attr("transform", `rotate(-90)`)
-      .attr("x", -(180 / 2))
+      .attr("x", -(height / 2))
       .attr("y", -50)
       .attr("dy", "1em")
       .style("text-anchor", "middle")
@@ -124,7 +126,7 @@ function DepthChart({ data, onRangeSelected }) {
           Reset
         </button>
       </div>
-      <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "10dvh" }}>
+      <svg ref={svgRef} viewBox={`0 0 ${width} ${height}`} style={{ overflow: "visible", marginLeft: "10dvh" ,marginRight: "5dvh"}}>
         <g className="x-axis"></g>
         <g className="y-axis"></g>
       </svg>
