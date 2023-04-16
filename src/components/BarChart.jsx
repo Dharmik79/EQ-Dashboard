@@ -9,6 +9,8 @@ import getColor from "../config/color";
 function BarChart({ data, onRangeSelected }) {
   const svgRef = useRef();
   const resetBrushRef = useRef(null);
+  const width=420
+  const height=180
   useEffect(() => {
     if (!data) {
       return;
@@ -37,12 +39,12 @@ function BarChart({ data, onRangeSelected }) {
     const barWidth = 300 / uniqueMagnitudes - 1;
     const x = scaleBand()
       .domain(magArray.map((d) => d.mag))
-      .range([0, 420])
+      .range([0, width])
       .paddingInner(0.1);
 
     const y = scaleLinear()
       .domain([0, d3.max(magArray, (d) => d.count)])
-      .range([180, 0]);
+      .range([height, 0]);
 
     const integerTickValues = magArray
       .map((d) => d.mag)
@@ -61,13 +63,13 @@ function BarChart({ data, onRangeSelected }) {
       .style("transform", "translateX(0px)")
       .call(yAxis);
     const getNearestMagnitude = (xCoord) => {
-      const index = Math.round((xCoord * uniqueMagnitudes) / 420);
+      const index = Math.round((xCoord * uniqueMagnitudes) / width);
       return magArray[index] ? magArray[index].mag : null;
     };
     const brush = brushX()
       .extent([
         [0, 0],
-        [420, 180],
+        [width, height],
       ])
       .on("brush end", () => {
         if (d3Event.selection) {
@@ -85,14 +87,14 @@ function BarChart({ data, onRangeSelected }) {
       });
     select(svgRef.current)
       .append("text")
-      .attr("transform", `translate(${420 / 2},${210})`)
+      .attr("transform", `translate(${width / 2},${210})`)
       .style("text-anchor", "middle")
       .text("Magnitude");
 
     select(svgRef.current)
       .append("text")
       .attr("transform", `rotate(-90)`)
-      .attr("x", -(180 / 2))
+      .attr("x", -(height / 2))
       .attr("y", -50)
       .attr("dy", "1em")
       .style("text-anchor", "middle")
@@ -114,7 +116,7 @@ function BarChart({ data, onRangeSelected }) {
       .attr("x", (d) => x(d.mag))
       .attr("y", (d) => y(d.count))
       .attr("width", barWidth)
-      .attr("height", (d) => 180 - y(d.count))
+      .attr("height", (d) => height - y(d.count))
       .attr("fill", (d) => getColor(d.mag))
       .on("click", (d) => {
         console.log("d", d);
@@ -138,7 +140,7 @@ function BarChart({ data, onRangeSelected }) {
           onClick={resetBrushRef.current}
           style={{ cursor: "pointer" }}
         >
-          Reset{" "}
+          Reset
         </button>
       </div>
       <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "12dvh" }}>
