@@ -10,7 +10,7 @@ function BarChart({ data, onRangeSelected }) {
   const svgRef = useRef();
   const resetBrushRef = useRef(null);
   const width=420
-  const height=180
+  const height=165
   useEffect(() => {
     if (!data) {
       return;
@@ -55,7 +55,7 @@ function BarChart({ data, onRangeSelected }) {
 
     select(svgRef.current)
       .select(".x-axis")
-      .style("transform", "translateY(180px)")
+      .style("transform", `translateY(${height}px)`)
       .call(xAxis);
 
     select(svgRef.current)
@@ -87,7 +87,7 @@ function BarChart({ data, onRangeSelected }) {
       });
     select(svgRef.current)
       .append("text")
-      .attr("transform", `translate(${width / 2},${210})`)
+      .attr("transform", `translate(${width / 2},${width/2-10})`)
       .style("text-anchor", "middle")
       .text("Magnitude");
 
@@ -143,7 +143,7 @@ function BarChart({ data, onRangeSelected }) {
           Reset
         </button>
       </div>
-      <svg ref={svgRef} style={{ overflow: "visible", marginLeft: "12dvh" }}>
+      <svg ref={svgRef} viewBox={`0 0 ${width} ${height}`} style={{ overflow: "visible", marginLeft: "10dvh" ,marginRight: "5dvh"}}>
         <g className="x-axis"></g>
         <g className="y-axis"></g>
       </svg>
