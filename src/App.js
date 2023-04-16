@@ -17,17 +17,31 @@ function App() {
   const [selectedDepthRange, setSelectedDepthRange] = useState(null);
   const [geo, setGeo] = useState(null);
   const [year,setYear]=useState("2022")
+
+  let abortController = new AbortController();
+let abortSignal = abortController.signal;
   const getData = async () => {
+    try {
+      abortController.abort(); // Abort any previous request
+    } catch (e) {}
+  
+    try{
     let resultData = await commonApi({
       action: "getData",
       parameters: [{ startDate: startDate, endDate: endDate }],
+      signal: abortSignal 
     });
     setData(resultData);
-    let resultCount = await commonApi({
-      action: "getCount",
-      parameters: [{ startDate: startDate, endDate: endDate }],
-    });
-    setCount(resultCount);
+    
+    setCount(resultData.metadata.count);
+  }
+  catch(error)
+  {
+    console.error("error",error)
+  }finally {
+    abortController.abort(); // abort the request
+  }
+   
   };
 
   useEffect(() => {
