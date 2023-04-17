@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import "./Text.css";
-function Text({ count, data, geo, setGeo,startDate,endDate }) {
+function Text({ count, data, geo, setGeo, startDate, endDate }) {
   const [maxMag, setMaxMag] = useState(0);
 
   const hotzones = {};
 
-  const recentEarthQuakes=data.sort((a,b)=>b.properties.time-a.properties.time)
+  const recentEarthQuakes = data.sort(
+    (a, b) => b.properties.time - a.properties.time
+  ).slice(0,5)
 
   data.forEach((quake) => {
     const latitude = quake.geometry.coordinates[1].toFixed(1);
@@ -38,7 +40,9 @@ function Text({ count, data, geo, setGeo,startDate,endDate }) {
         <p className="h2">
           WORLD'S <br></br>EARTHQUAKES{" "}
         </p>
-        <span className="time-zones">Data Range : {startDate} to {endDate}</span>
+        <span className="time-zones">
+          Data Range : {startDate} to {endDate}
+        </span>
 
         <div className="earthquakestats">
           <hr />
@@ -58,121 +62,44 @@ function Text({ count, data, geo, setGeo,startDate,endDate }) {
         <div className="hot-zones">
           <p className="hot-zone-underline">HOT ZONES:</p>
           <ul>
-            <li
-              onClick={() => {
-                arrayData[0] &&
+            {arrayData.map((item,index) => (
+            
+              <li
+              key={index}
+                onClick={() => {
                   setGeo({
-                    lat: arrayData[0].latitude,
-                    long: arrayData[0].longitude,
+                    lat: item.latitude,
+                    long: item.longitude,
                   });
-              }}
-            >
-              {arrayData[0] && arrayData[0].place}
-            </li>
-            <li
-              onClick={() => {
-                arrayData[1] &&
-                  setGeo({
-                    lat: arrayData[1].latitude,
-                    long: arrayData[1].longitude,
-                  });
-              }}
-            >
-              {arrayData[1] && arrayData[1].place}
-            </li>
-            <li
-              onClick={() => {
-                arrayData[2] &&
-                  setGeo({
-                    lat: arrayData[2].latitude,
-                    long: arrayData[2].longitude,
-                  });
-              }}
-            >
-              {arrayData[2] && arrayData[2].place}
-            </li>
-            <li
-              onClick={() => {
-                arrayData[3] &&
-                  setGeo({
-                    lat: arrayData[3].latitude,
-                    long: arrayData[3].longitude,
-                  });
-              }}
-            >
-              {arrayData[3] && arrayData[3].place}
-            </li>
-            <li
-              onClick={() => {
-                arrayData[4] &&
-                  setGeo({
-                    lat: arrayData[4].latitude,
-                    long: arrayData[4].longitude,
-                  });
-              }}
-            >
-              {arrayData[4] && arrayData[4].place}
-            </li>
+                }}
+              >
+                {item.place}
+              </li>
+            ))}
           </ul>
         </div>
         <div className="recent-earthquakes">
           <p className="recent-earthquake-underline">RECENT EARTHQUAKES:</p>
           <ul>
+          {recentEarthQuakes.map((item,index)=>(
             <li
-              onClick={() => {
-                recentEarthQuakes[0] &&
-                  setGeo({
-                    lat: recentEarthQuakes[0].geometry.coordinates[1].toFixed(1),
-                    long: recentEarthQuakes[0].geometry.coordinates[0].toFixed(1),
-                  });
-              }}
-            >
-              {recentEarthQuakes[0] && recentEarthQuakes[0].properties.place}
-            </li>
-            <li
-              onClick={() => {
-                recentEarthQuakes[1] &&
-                  setGeo({
-                    lat: recentEarthQuakes[1].geometry.coordinates[1].toFixed(1),
-                    long: recentEarthQuakes[1].geometry.coordinates[0].toFixed(1),
-                  });
-              }}
-            >
-              {recentEarthQuakes[1] && recentEarthQuakes[1].properties.place}
-            </li>
-            <li
-              onClick={() => {
-                recentEarthQuakes[2] &&
-                  setGeo({
-                    lat: recentEarthQuakes[2].geometry.coordinates[1].toFixed(1),
-                    long: recentEarthQuakes[2].geometry.coordinates[0].toFixed(1),
-                  });
-              }}
-            >
-              {recentEarthQuakes[2] && recentEarthQuakes[2].properties.place}
-            </li>
-            <li
-              onClick={() => {
-                recentEarthQuakes[3] &&
-                  setGeo({
-                    lat: recentEarthQuakes[3].geometry.coordinates[1].toFixed(1),
-                    long: recentEarthQuakes[3].geometry.coordinates[0].toFixed(1),
-                  });
-              }}
-            >
-              {recentEarthQuakes[3] && recentEarthQuakes[3].properties.place}
-            </li>
-            <li
-              onClick={() => {
-                recentEarthQuakes[4] &&
-                  setGeo({
-                    lat: recentEarthQuakes[4].geometry.coordinates[1].toFixed(1),
-                    long: recentEarthQuakes[4].geometry.coordinates[0].toFixed(1),
-                  });
-              }}
-            >
-              {arrayData[4] && arrayData[4].place}
-            </li>
+            key={index}
+            onClick={() => {
+             
+                setGeo({
+                  lat: item.geometry.coordinates[1].toFixed(
+                    1
+                  ),
+                  long: item.geometry.coordinates[0].toFixed(
+                    1
+                  ),
+                });
+            }}
+          >
+            {item.properties.place}
+          </li>
+          ))}
+           
           </ul>
         </div>
       </div>
@@ -181,50 +108,3 @@ function Text({ count, data, geo, setGeo,startDate,endDate }) {
 }
 
 export default Text;
-
-// import React, { useState } from "react";
-
-// const Table = () => {
-//   const [data, setData] = useState([
-//     { id: 1, name: "John Doe", email: "johndoe@example.com" },
-//     { id: 2, name: "Jane Doe", email: "janedoe@example.com" },
-//     { id: 3, name: "Bob Smith", email: "bobsmith@example.com" },
-//     { id: 4, name: "John Doe", email: "johndoe@example.com" },
-//     { id: 5, name: "Jane Doe", email: "janedoe@example.com" },
-//     { id: 6, name: "Bob Smith", email: "bobsmith@example.com" },
-//     { id: 7, name: "John Doe", email: "johndoe@example.com" },
-//     { id: 8, name: "Jane Doe", email: "janedoe@example.com" },
-//     { id: 9, name: "Bob Smith", email: "bobsmith@example.com" },
-//     { id: 10, name: "Bob Smith", email: "bobsmith@example.com" },
-//     { id: 11, name: "John Doe", email: "johndoe@example.com" },
-//     { id: 12, name: "Jane Doe", email: "janedoe@example.com" },
-//     { id: 13, name: "Bob Smith", email: "bobsmith@example.com" },
-//     { id: 10, name: "Bob Smith", email: "bobsmith@example.com" },
-//     { id: 11, name: "John Doe", email: "johndoe@example.com" },
-//     { id: 12, name: "Jane Doe", email: "janedoe@example.com" },
-//     { id: 13, name: "Bob Smith", email: "bobsmith@example.com" },
-//   ]);
-
-//   return (
-//     <table>
-//       <thead>
-//         <tr>
-//           <th>ID</th>
-//           <th>Name</th>
-//           <th>Email</th>
-//         </tr>
-//       </thead>
-//       <tbody>
-//         {data.map((item) => (
-//           <tr key={item.id}>
-//             <td>{item.id}</td>
-//             <td>{item.name}</td>
-//             <td>{item.email}</td>
-//           </tr>
-//         ))}
-//       </tbody>
-//     </table>
-//   );
-// };
-
-// export default Table;

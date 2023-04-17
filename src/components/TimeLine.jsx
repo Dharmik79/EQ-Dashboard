@@ -26,8 +26,7 @@ const GetSelectedYear = ({
     setYear(year);
   };
   return (
-    <select id="year" name="year" onChange={onChange}>
-      <option value="">Select Year</option>
+    <select id="year" name="year" onChange={onChange} className="year">
       {[
         "2022",
         "2021",
@@ -152,6 +151,7 @@ const TimeLineChart = ({
             const dateDifference = Math.abs(
               (selectedEndDate - selectedStartDate) / (1000 * 60 * 60 * 24)
             );
+         
             if (dateDifference > maxBrushDuration) {
               selectedEndDate = new Date(
                 selectedStartDate.getTime() + maxBrushDuration * 24 * 60 * 60 * 1000
@@ -167,6 +167,15 @@ const TimeLineChart = ({
                 x(selectedEndDate),
               ]);
             }
+            if(dateDifference<1)
+            {
+              selectedStartDate = new Date(startDate);
+            selectedEndDate = new Date(endDate);
+            svg.select(".brush").call(brush.move, [
+              x(selectedStartDate),
+              x(selectedEndDate),
+            ]);
+            }
             setStartDate(selectedStartDate.toISOString().split("T")[0]);
             setEndDate(selectedEndDate.toISOString().split("T")[0]);
           } else {
@@ -177,7 +186,7 @@ const TimeLineChart = ({
               x(selectedEndDate),
             ]);
           }
-        
+      
           svg.selectAll(".selection").attr("fill", selection ? "blue" : "gray");
         }
         

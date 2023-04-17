@@ -25,3 +25,8 @@
 .brush .selection {
     fill: blue;
   }
+
+  .year
+  {
+    width:100px;   
+  }
