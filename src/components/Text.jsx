@@ -62,8 +62,10 @@ function Text({ count, data, geo, setGeo, startDate, endDate }) {
         <div className="hot-zones">
           <p className="hot-zone-underline">HOT ZONES:</p>
           <ul>
-            {arrayData.map((item) => (
+            {arrayData.map((item,index) => (
+            
               <li
+              key={index}
                 onClick={() => {
                   setGeo({
                     lat: item.latitude,
@@ -79,8 +81,9 @@ function Text({ count, data, geo, setGeo, startDate, endDate }) {
         <div className="recent-earthquakes">
           <p className="recent-earthquake-underline">RECENT EARTHQUAKES:</p>
           <ul>
-          {recentEarthQuakes.map((item)=>(
+          {recentEarthQuakes.map((item,index)=>(
             <li
+            key={index}
             onClick={() => {
              
                 setGeo({

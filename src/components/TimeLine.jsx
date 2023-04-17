@@ -26,8 +26,7 @@ const GetSelectedYear = ({
     setYear(year);
   };
   return (
-    <select id="year" name="year" onChange={onChange}>
-      <option value="">Select Year</option>
+    <select id="year" name="year" onChange={onChange} className="year">
       {[
         "2022",
         "2021",
