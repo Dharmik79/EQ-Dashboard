@@ -122,7 +122,7 @@ function Map({ data, geo, setGeo, selectedRange, selectedDepthRange }) {
                   });
                 }}
               >
-                {/* <Popup>{`Latitude: ${latitude}, Longitude: ${longitude}`}</Popup> */}
+              <Popup>{`Latitude: ${latitude}, Longitude: ${longitude}`}</Popup> 
               </Marker>
             );
           }

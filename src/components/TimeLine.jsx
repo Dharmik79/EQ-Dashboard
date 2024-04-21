@@ -28,6 +28,8 @@ const GetSelectedYear = ({
   return (
     <select id="year" name="year" onChange={onChange} className="year">
       {[
+        "2024",
+        "2023",
         "2022",
         "2021",
         "2020",
