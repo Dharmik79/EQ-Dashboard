@@ -1,15 +1,15 @@
 {
-  "main.css": "/eq-dashboard/static/css/main.2bee6ade.chunk.css",
-  "main.js": "/eq-dashboard/static/js/main.0aec380b.chunk.js",
-  "main.js.map": "/eq-dashboard/static/js/main.0aec380b.chunk.js.map",
-  "runtime~main.js": "/eq-dashboard/static/js/runtime~main.c02b92d8.js",
-  "runtime~main.js.map": "/eq-dashboard/static/js/runtime~main.c02b92d8.js.map",
-  "static/css/2.d09a3771.chunk.css": "/eq-dashboard/static/css/2.d09a3771.chunk.css",
-  "static/js/2.13ada42c.chunk.js": "/eq-dashboard/static/js/2.13ada42c.chunk.js",
-  "static/js/2.13ada42c.chunk.js.map": "/eq-dashboard/static/js/2.13ada42c.chunk.js.map",
-  "index.html": "/eq-dashboard/index.html",
-  "precache-manifest.fda136ff0f8b3655e0639c1cc7d06853.js": "/eq-dashboard/precache-manifest.fda136ff0f8b3655e0639c1cc7d06853.js",
-  "service-worker.js": "/eq-dashboard/service-worker.js",
-  "static/css/2.d09a3771.chunk.css.map": "/eq-dashboard/static/css/2.d09a3771.chunk.css.map",
-  "static/css/main.2bee6ade.chunk.css.map": "/eq-dashboard/static/css/main.2bee6ade.chunk.css.map"
+  "main.css": "/Dharmik79/EQ-Dashboard/static/css/main.2bee6ade.chunk.css",
+  "main.js": "/Dharmik79/EQ-Dashboard/static/js/main.0aec380b.chunk.js",
+  "main.js.map": "/Dharmik79/EQ-Dashboard/static/js/main.0aec380b.chunk.js.map",
+  "runtime~main.js": "/Dharmik79/EQ-Dashboard/static/js/runtime~main.a7bacd0b.js",
+  "runtime~main.js.map": "/Dharmik79/EQ-Dashboard/static/js/runtime~main.a7bacd0b.js.map",
+  "static/css/2.d09a3771.chunk.css": "/Dharmik79/EQ-Dashboard/static/css/2.d09a3771.chunk.css",
+  "static/js/2.13ada42c.chunk.js": "/Dharmik79/EQ-Dashboard/static/js/2.13ada42c.chunk.js",
+  "static/js/2.13ada42c.chunk.js.map": "/Dharmik79/EQ-Dashboard/static/js/2.13ada42c.chunk.js.map",
+  "index.html": "/Dharmik79/EQ-Dashboard/index.html",
+  "precache-manifest.b05db1faeac51316bf95e4c15cd0decd.js": "/Dharmik79/EQ-Dashboard/precache-manifest.b05db1faeac51316bf95e4c15cd0decd.js",
+  "service-worker.js": "/Dharmik79/EQ-Dashboard/service-worker.js",
+  "static/css/2.d09a3771.chunk.css.map": "/Dharmik79/EQ-Dashboard/static/css/2.d09a3771.chunk.css.map",
+  "static/css/main.2bee6ade.chunk.css.map": "/Dharmik79/EQ-Dashboard/static/css/main.2bee6ade.chunk.css.map"
 }

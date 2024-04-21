@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/eq-dashboard/precache-manifest.fda136ff0f8b3655e0639c1cc7d06853.js"
+  "/Dharmik79/EQ-Dashboard/precache-manifest.b05db1faeac51316bf95e4c15cd0decd.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/eq-dashboard/index.html", {
+workbox.routing.registerNavigationRoute("/Dharmik79/EQ-Dashboard/index.html", {
   
   blacklist: [/^\/_/,/\/[^/]+\.[^/]+$/],
 });
